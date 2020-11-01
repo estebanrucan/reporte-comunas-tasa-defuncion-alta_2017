@@ -1,0 +1,159 @@
+---
+title: "Exploratorio"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+library(DT)
+
+## Global options
+options(max.print='75')
+opts_chunk$set(echo=FALSE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+```{r CARGAR BASE, include=FALSE}
+data_frame = rio::import('D:\\LET0010\\reporte_infarto_miocardio_1990_2017\\data_frame\\DEF_1990-2017.csv')
+```
+
+```{r LIMPIEZA}
+# GLOSA_CATEGORIA_DIAG1 completo
+data_frame = data_frame[data_frame$GLOSA_CATEGORIA_DIAG1 != '', ]
+
+# Eliminamos variables que tenga más del 4% de datos faltantes
+variable_names = names(data_frame)
+variables_borradas = c()    
+    
+for(variable in variable_names){
+    if( sum(is.na(data_frame[[variable]])) / nrow(data_frame) >= 0.05){
+        data_frame[[variable]] = NULL
+        variables_borradas = c(variables_borradas, variable)
+    } else if(length(which(data_frame[[variable]] == '')) / nrow(data_frame) >= 0.05){
+        data_frame[[variable]] = NULL
+        variables_borradas = c(variables_borradas, variable)
+    }
+}
+
+# Eliminamos variables que explican lo mismo
+variables_ya_explicadas = c('SEXO', 'EST_CIVIL', 'NIVEL_INS', 'ACTIVIDAD', 'OCUPACION', 'CATEGORIA', 'LOCAL_DEF', 'REG_RES', 'SERV_RES', 'COMUNA', 'DIAG1', 'CODIGO_CATEGORIA_DIAG1', 'CODIGO_GRUPO_DIAG1', 'CAPITULO_DIAG1', 'AT_MEDICA', 'CAL_MEDICO')
+for(variable in variables_ya_explicadas){
+  data_frame[[variable]] = NULL
+}
+data_frame$ID_FALLECIDO = 1:nrow(data_frame)
+```
+
+# DEFUNCIONES - AÑO
+
+```{r CANT. DEFUNCIONES - AÑO}
+tabla_defunciones_ano = data_frame %>%
+    group_by(ANO_DEF) %>%
+    summarise(Defunciones = length(ANO_DEF))
+```
+
+```{r TABLA DEFUNCIONES - AÑO}
+tabla_defunciones_ano %>%
+    arrange(desc(Defunciones)) %>%
+    datatable()
+```
+
+```{r GRAFICO DEFUNCIONES-AÑO}
+ggplot(tabla_defunciones_ano) +
+    aes(ANO_DEF, Defunciones) +
+    labs(x = 'Año', y = 'Defunciones', title = 'Defunciones 1990-2017') +
+    geom_line(color = 'brown3', size = 1) +
+    theme_bw()
+```
+
+```{r FILTRO DF POR INFARTO}
+data_frame_im = data_frame %>%
+  filter(GLOSA_CATEGORIA_DIAG1 == 'Infarto agudo del miocardio') 
+```
+
+# DEFUNCIONES POR INFARTO - AÑO
+
+```{r CANT. DEFUNCIONES POR INFARTO - AÑO}
+tabla_defunciones_ano_im = data_frame_im %>%
+    group_by(ANO_DEF) %>%
+    summarise(Defunciones = length(ANO_DEF))
+```
+
+```{r TABLA DEFUNCIONES POR INFARTO - AÑO}
+tabla_defunciones_ano_im %>%
+    arrange(desc(Defunciones)) %>%
+    datatable()
+```
+
+```{r GRAFICO DEFUNCIONES POR INFARTO -AÑO}
+ggplot(tabla_defunciones_ano_im) +
+    aes(ANO_DEF, Defunciones) +
+    labs(x = 'Año', y = 'Defunciones', title = 'Defunciones 1990-2017') +
+    geom_line(color = 'brown3', size = 1) +
+    theme_bw()
+```
+
+# DEFUNCIONES POR INFARTO HOMBRE - AÑO
+
+```{r FILTRO DF POR INFARTO HOMBRE}
+data_frame_im_h = data_frame %>%
+  filter(GLOSA_CATEGORIA_DIAG1 == 'Infarto agudo del miocardio') %>%
+  filter(GLOSA_SEXO == 'Hombre')
+```
+
+```{r CANT. DEFUNCIONES POR INFARTO HOMBRE - AÑO}
+tabla_defunciones_ano_im_h = data_frame_im_h %>%
+    group_by(ANO_DEF) %>%
+    summarise(Defunciones = length(ANO_DEF))
+```
+
+```{r TABLA DEFUNCIONES POR INFARTO HOMBRE - AÑO}
+tabla_defunciones_ano_im_h %>%
+    arrange(desc(Defunciones)) %>%
+    datatable()
+```
+
+```{r GRAFICO DEFUNCIONES POR INFARTO HOMBRE- AÑO}
+ggplot(tabla_defunciones_ano_im_h) +
+    aes(ANO_DEF, Defunciones) +
+    labs(x = 'Año', y = 'Defunciones', title = 'Defunciones 1990-2017') +
+    geom_line(color = 'brown3', size = 1) +
+    theme_bw()
+```
+
+# DEFUNCIONES POR INFARTO MUJER - AÑO
+
+```{r FILTRO DF POR INFARTO MUJER}
+data_frame_im_m = data_frame %>%
+  filter(GLOSA_CATEGORIA_DIAG1 == 'Infarto agudo del miocardio') %>%
+  filter(GLOSA_SEXO == 'Mujer')
+```
+
+```{r CANT. DEFUNCIONES POR INFARTO MUJER - AÑO}
+tabla_defunciones_ano_im_m = data_frame_im_m %>%
+    group_by(ANO_DEF) %>%
+    summarise(Defunciones = length(ANO_DEF))
+```
+
+```{r TABLA DEFUNCIONES POR INFARTO MUJER - AÑO}
+tabla_defunciones_ano_im_m %>%
+    arrange(desc(Defunciones)) %>%
+    datatable()
+```
+
+```{r GRAFICO DEFUNCIONES POR INFARTO MUJER - AÑO}
+ggplot(tabla_defunciones_ano_im_m) +
+    aes(ANO_DEF, Defunciones) +
+    labs(x = 'Año', y = 'Defunciones', title = 'Defunciones 1990-2017') +
+    geom_line(color = 'brown3', size = 1) +
+    theme_bw()
+```
