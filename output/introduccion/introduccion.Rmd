@@ -1,5 +1,5 @@
 ---
-title: "Análisis sobre la evolución del Infarto Agudo al Miocardio en Chile"
+title: "Análisis sobre las defunciones por Infarto Agudo al Miocardio en Chile (1990 - 2017)"
 subtitle: "Introducción"
 date: "`r Sys.Date()`"
 output:
@@ -10,11 +10,11 @@ output:
 
 ## Global options
 options(max.print="75")
-opts_chunk$set(echo=FALSE,
+knitr::opts_chunk$set(echo=FALSE,
                comment=NA,
                message=FALSE,
                warning=FALSE)
-opts_knit$set(width=75)
+knitr::opts_knit$set(width=75)
 ```
 
 Desde 1990 hasta la actualidad, en Chile existe un registro continuo, centralizado y obligatorio de las defunciones originadas en el país, por lo que la información de mortalidad se obtiene a través de estos datos. Podemos conocer abiertamente características como la frecuencia y la localización territorial. Particularmente en este informe, se hablará sobre el Infarto Agudo al Miocardio (abreviado como **IAM**) y su evolución en el territorio nacional. Este tipo de defunciones son producidas inicialmente por una necrosis miocárdica que se produce como resultado de una obstrucción aguda de una arteria coronaria, los síntomas incluyen molestias torácicas con disnea o sin ella, náuseas y sudoración.
