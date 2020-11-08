@@ -1,0 +1,31 @@
+---
+title: "Analisis sobre la evolución del Infarto Agudo al Miocardio en Chile"
+subtitle: "Introducción"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+```{r setup, echo=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+Desde 1990 hasta la actualidad, en Chile existe un registro continuo, centralizado y obligatorio de las defunciones originadas en el país, por lo que la información de mortalidad se obtiene a través de estos datos. Podemos conocer abiertamente características como la frecuencia y la localización territorial. Particularmente en este informe, se hablará sobre el Infarto Agudo al Miocardio (abreviado como **IAM**) y su evolución en el territorio nacional. Este tipo de defunciones son producidas inicialmente por una necrosis miocárdica que se produce como resultado de una obstrucción aguda de una arteria coronaria, los síntomas incluyen molestias torácicas con disnea o sin ella, náuseas y sudoración.
+
+Esta es una enfermedad, del tipo coronaria, que a lo largo de la historia ha presentado una tasa de mortalidad bastante alta, por lo que estudiar el comportamiento de esta dentro del país es muy importante, para que en el caso de que exista la necesidad, iniciar campañas de información y de prevención, y así, buscar una eventual baja a la cantidad de defunciones. Creo que saber sobre enfermedades con una alta tasa de mortalidad, puede ser ventajoso para saber como actuar al momento de enfrentar estas, ya sea con uno mismo, o con otras personas.
+
+En este informe, se buscará, a través de un análisis descriptivo con herramientas estadísticas, si existe esta necesidad de invertir recursos para hacerle frente al IAM, no tan soló en un análisis generalizado a todo el territorio chileno, sino que también se intentará focalizarlo a determinados grupos etarios, y a regiones del país en específico.
+
+En primer lugar el análisis hablará de la evolución del IAM desde 1990 hasta 2017, hablando sobre cantidad de defunciones por sexo y rango etario, luego analizaremos esta evolución según cada región del país para finalmente decidir que tipo de medidas serán las mejores y si es necesario focalizar las medidas a alguna área en particular. En caso de que exista la necesidad de implementar medidas, se mencionarán las mejores estrategias para poder disminuir la cantidad de defunciones producidas por IAM.

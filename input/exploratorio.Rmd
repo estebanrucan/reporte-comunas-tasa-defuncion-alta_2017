@@ -24,8 +24,15 @@ opts_knit$set(width=75)
 ```
 
 ```{r CARGAR BASE, include=FALSE}
-data_frame = rio::import('D:\\LET0010\\reporte_infarto_miocardio_1990_2017\\data_frame\\DEF_1990-2017.csv')
+data_frame = rio::import('D:\\LET0010\\reporte_infarto_miocardio_1990-2017\\data_frame\\DEF_1990-2017.csv')
 ```
+
+# Introducción
+
+-   Contexto general
+-   Problema, necesidad, relevancia
+-   Preguntas u objetivos o ambos
+-   Carta de navegación: adelantamos la estructura y que se encuentra
 
 ```{r LIMPIEZA}
 # GLOSA_CATEGORIA_DIAG1 completo
@@ -63,7 +70,6 @@ tabla_defunciones_ano = data_frame %>%
 
 ```{r TABLA DEFUNCIONES - AÑO}
 tabla_defunciones_ano %>%
-    arrange(desc(Defunciones)) %>%
     datatable()
 ```
 
@@ -90,7 +96,6 @@ tabla_defunciones_ano_im = data_frame_im %>%
 
 ```{r TABLA DEFUNCIONES POR INFARTO - AÑO}
 tabla_defunciones_ano_im %>%
-    arrange(desc(Defunciones)) %>%
     datatable()
 ```
 
@@ -118,7 +123,6 @@ tabla_defunciones_ano_im_h = data_frame_im_h %>%
 
 ```{r TABLA DEFUNCIONES POR INFARTO HOMBRE - AÑO}
 tabla_defunciones_ano_im_h %>%
-    arrange(desc(Defunciones)) %>%
     datatable()
 ```
 
@@ -146,14 +150,71 @@ tabla_defunciones_ano_im_m = data_frame_im_m %>%
 
 ```{r TABLA DEFUNCIONES POR INFARTO MUJER - AÑO}
 tabla_defunciones_ano_im_m %>%
-    arrange(desc(Defunciones)) %>%
     datatable()
 ```
 
 ```{r GRAFICO DEFUNCIONES POR INFARTO MUJER - AÑO}
 ggplot(tabla_defunciones_ano_im_m) +
     aes(ANO_DEF, Defunciones) +
-    labs(x = 'Año', y = 'Defunciones', title = 'Defunciones 1990-2017') +
+    labs(x = 'Año', y = 'Defunciones', title = 'Defunciones de mujeres 1990-2017') +
     geom_line(color = 'brown3', size = 1) +
     theme_bw()
+```
+
+```{r CONJUNTO DEFUNCIONES}
+data_frame_conjunto <- data.frame(ano = tabla_defunciones_ano_im$ANO_DEF, 
+                                  hombre = tabla_defunciones_ano_im_h$Defunciones,
+                                  mujer = tabla_defunciones_ano_im_m$Defunciones,
+                                  total = tabla_defunciones_ano_im$Defunciones)
+ggplot(data_frame_conjunto) +
+  geom_line(aes(ano, total, color = 'dodgerblue1')) +
+  geom_line(aes(ano, hombre, color = 'indianred1')) +
+  geom_line(aes(ano, mujer, color = 'deepskyblue1'))
+```
+
+# Tasa de defunciones
+
+```{r}
+tabla_defunciones_ano_im$tasa <- tabla_defunciones_ano_im$Defunciones / tabla_defunciones_ano$Defunciones * 100
+
+ggplot(tabla_defunciones_ano_im) +
+  aes(ANO_DEF, tasa) +
+  geom_line(color = "brown3", size = 1) +
+  labs(title = "Tasa de Defunción IM por año") +
+  theme_bw()
+  
+```
+
+# EDAD
+
+```{r}
+edades <- vector(mode = 'numeric', length = nrow(data_frame_im))
+
+
+for(dato in 1:nrow(data_frame_im)){
+  if(data_frame_im$EDAD_TIPO[dato] == 1){
+    edades[dato] <- data_frame_im$EDAD_CANT[dato]
+  } else if(data_frame_im$EDAD_TIPO[dato] == 2){
+    edades[dato] <- data_frame_im$EDAD_CANT[dato] / 12
+  } else if(data_frame_im$EDAD_TIPO[dato] == 3){
+    edades[dato] <- data_frame_im$EDAD_CANT[dato] /365
+  } else if(data_frame_im$EDAD_TIPO[dato] == 4){
+    edades[dato] <- data_frame_im$EDAD_CANT[dato] / 8760
+  } else{
+    edades[dato] <- NA
+  }
+}
+
+data_frame_im$EDAD <- edades
+
+
+limites <- seq(0, max(edades), 5)
+
+ggplot(data_frame_im) +
+  aes(x = EDAD) +
+  geom_histogram(fill = 'brown3', color = 'brown4') +
+  facet_wrap(.~ GLOSA_SEXO, nrow = 1) +
+  labs(title = "Defunciones por edad, separado por sexo") +
+  theme_bw()
+
 ```
