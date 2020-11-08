@@ -1,21 +1,16 @@
 ---
-title: "Analisis sobre la evolución del Infarto Agudo al Miocardio en Chile"
+title: "Análisis sobre la evolución del Infarto Agudo al Miocardio en Chile"
 subtitle: "Introducción"
 date: "`r Sys.Date()`"
 output:
-  rmdformats::readthedown:
-    highlight: kate
+  rmdformats::readthedown
 ---
 
-```{r setup, echo=FALSE, cache=FALSE}
-library(knitr)
-library(rmdformats)
+```{r setup, echo=FALSE}
 
 ## Global options
 options(max.print="75")
 opts_chunk$set(echo=FALSE,
-               prompt=FALSE,
-               tidy=TRUE,
                comment=NA,
                message=FALSE,
                warning=FALSE)
@@ -29,3 +24,4 @@ Esta es una enfermedad, del tipo coronaria, que a lo largo de la historia ha pre
 En este informe, se buscará, a través de un análisis descriptivo con herramientas estadísticas, si existe esta necesidad de invertir recursos para hacerle frente al IAM, no tan soló en un análisis generalizado a todo el territorio chileno, sino que también se intentará focalizarlo a determinados grupos etarios, y a regiones del país en específico.
 
 En primer lugar el análisis hablará de la evolución del IAM desde 1990 hasta 2017, hablando sobre cantidad de defunciones por sexo y rango etario, luego analizaremos esta evolución según cada región del país para finalmente decidir que tipo de medidas serán las mejores y si es necesario focalizar las medidas a alguna área en particular. En caso de que exista la necesidad de implementar medidas, se mencionarán las mejores estrategias para poder disminuir la cantidad de defunciones producidas por IAM.
+
