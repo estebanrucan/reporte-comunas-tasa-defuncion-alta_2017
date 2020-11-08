@@ -124,7 +124,7 @@ tabla_defunciones_ano_im_h = data_frame_im_h %>%
 ```{r TABLA DEFUNCIONES POR INFARTO HOMBRE - AÑO}
 tabla_defunciones_ano_im_h %>%
     datatable()
-```
+``` 
 
 ```{r GRAFICO DEFUNCIONES POR INFARTO HOMBRE- AÑO}
 ggplot(tabla_defunciones_ano_im_h) +
