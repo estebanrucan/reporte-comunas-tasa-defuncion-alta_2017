@@ -11,4 +11,4 @@
 * Acá están los avances del informe final y el desarrollo del mismo.
 
 ## Otros
-* El informe está siendo desarrollado con el software R a través de RStudio.
+* El informe está siendo desarrollado con el software R a través de RStudio. 
