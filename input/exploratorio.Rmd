@@ -58,6 +58,9 @@ for(variable in variables_ya_explicadas){
   data_frame[[variable]] = NULL
 }
 data_frame$ID_FALLECIDO = 1:nrow(data_frame)
+
+write.csv(data_frame, file = 'D:\\LET0010\\reporte_infarto_miocardio_1990-2017\\data_frame\\procesados\\base_limpia.csv')
+
 ```
 
 # DEFUNCIONES - AÑO
@@ -83,7 +86,9 @@ ggplot(tabla_defunciones_ano) +
 
 ```{r FILTRO DF POR INFARTO}
 data_frame_im = data_frame %>%
-  filter(GLOSA_CATEGORIA_DIAG1 == 'Infarto agudo del miocardio') 
+  filter(GLOSA_CATEGORIA_DIAG1 == 'Infarto agudo del miocardio')
+
+write.csv(data_frame_im, file = 'D:\\LET0010\\reporte_infarto_miocardio_1990-2017\\data_frame\\procesados\\base-filtrada.csv')
 ```
 
 # DEFUNCIONES POR INFARTO - AÑO
