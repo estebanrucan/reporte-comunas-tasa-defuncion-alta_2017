@@ -1,7 +1,7 @@
 # Análisis de las defunciones por Infarto al Miocardio en chile (1990 - 2017)
 
 ## Carpeta "data_frame"
-* Acá está la base de datos en formato `.csv` y un archivo `.xlsx` que presenta una ficha con las variables de la base de datos. 
+* Acá estám las bases de datos en formato `.csv` y un archivo `.xlsx` que presenta una ficha con las variables de la base de datos. 
 * Base de datos obtenida desde el [Departamento de Estadística e Información de Salud](https://deis.minsal.cl/#datosabiertos).
 
 ## Carpeta "input"
