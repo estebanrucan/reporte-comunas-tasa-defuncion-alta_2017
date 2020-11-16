@@ -4,7 +4,7 @@
 * Acá estám las bases de datos en formato `.csv` y un archivo `.xlsx` que presenta una ficha con las variables de la base de datos. 
 * Base de datos obtenida desde el [Departamento de Estadística e Información de Salud](https://deis.minsal.cl/#datosabiertos).
 
-## Carpeta `input:
+## Carpeta `input`:
 * Acá se encuentran las exploraciones realizadas en la base de datos, y una beta de los gráficos que irán en el informe final.
 
 ## Carpeta `output`:
