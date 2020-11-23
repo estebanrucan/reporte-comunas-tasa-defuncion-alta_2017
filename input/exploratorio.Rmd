@@ -223,3 +223,14 @@ ggplot(data_frame_im) +
   theme_bw()
 
 ```
+
+```{r DEFUNCIONES IMC POR REGION}
+
+data_frame_im %>% 
+  group_by(GLOSA_REG_RES) %>%
+  summarise(Defunciones = length(GLOSA_REG_RES)) %>%
+  arrange(desc(Defunciones)) %>%
+  datatable()
+
+```
+
