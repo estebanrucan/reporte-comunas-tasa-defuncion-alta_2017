@@ -1,4 +1,4 @@
-# Análisis de las tasas de defunciones por comuna en Chile (2017).
+# Análisis de la tasa de defunción por comuna en Chile (2017).
 
 ## Carpeta `data_frame`:
 * Acá estám las bases de datos en formato `.csv` y un archivo `.xlsx` que presenta una ficha con las variables de la base de datos. 
