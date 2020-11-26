@@ -1,0 +1,126 @@
+---
+title: "Exploratorio"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+require(gghighlight)
+require(ggsflabel)
+library(tidyverse)
+library(DT)
+
+
+## Global options
+options(max.print='75')
+opts_chunk$set(echo=FALSE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+```{r CARGAR BASE, include=FALSE}
+data = rio::import('D:\\LET0010\\reporte_infarto_miocardio_1990-2017\\data_frame\\DEF_2010-2017.csv')
+```
+
+```{r LIMPIEZA}
+variables_ya_explicadas = c('SEXO', 'EST_CIVIL', 'NIVEL_INS', 'ACTIVIDAD', 'OCUPACION', 'CATEGORIA', 'LOCAL_DEF', 'SERV_RES', 'DIAG1', 'CODIGO_CATEGORIA_DIAG1', 'CODIGO_GRUPO_DIAG1', 'CAPITULO_DIAG1', 'AT_MEDICA', 'CAL_MEDICO')
+for(variable in variables_ya_explicadas){
+  data[[variable]] = NULL
+}
+
+data_2017 <- data %>%
+  filter(ANO_DEF == 2017) %>%
+  filter(ANO_NAC < 3000)
+
+data_2017$EDAD_CANT <- data_2017$ANO_DEF - data_2017$ANO_NAC
+```
+
+```{r}
+defunciones_region <- function(num_reg) {
+  geom_regiones <- chilemapas::mapa_comunas
+  geom_regiones$codigo_region <- geom_regiones$codigo_region %>% as.numeric
+  
+  poblacion_comunas_2017 <- chilemapas::censo_2017_comunas %>%
+    group_by(codigo_comuna) %>%
+    summarise(POBL = sum(poblacion))
+  poblacion_comunas_2017$codigo_comuna <- poblacion_comunas_2017$codigo_comuna %>% as.numeric
+  
+  tabla_def_comuna <- data_2017 %>%
+    group_by(COMUNA) %>%
+    summarise(DEF = length(COMUNA))
+  
+  colnames(tabla_def_comuna)[1] <- c("codigo_comuna")
+  
+  tabla_def_comuna <- tabla_def_comuna %>% 
+    left_join(poblacion_comunas_2017, by = "codigo_comuna")
+  tabla_def_comuna <- tabla_def_comuna %>%
+    mutate(TASA_DEF = round(DEF / POBL * 100000))
+  
+  cod_territoriales <- chilemapas::codigos_territoriales
+  cod_territoriales$codigo_comuna <- cod_territoriales$codigo_comuna %>% as.numeric
+  
+  
+  regiones <- cod_territoriales %>%
+    select("codigo_region", "nombre_region") %>%
+    unique()
+  regiones$codigo_region <- regiones$codigo_region %>% as.numeric 
+  
+  mapa_comunas <- chilemapas::mapa_comunas
+  mapa_comunas$codigo_comuna <- mapa_comunas$codigo_comuna %>% as.numeric 
+  mapa_comunas$codigo_region <- mapa_comunas$codigo_region %>% as.numeric
+  
+  comunas_alta_def <- mapa_comunas %>% 
+    left_join(
+      cod_territoriales %>%
+        select(matches("comuna"))) %>%
+    left_join(tabla_def_comuna, by = "codigo_comuna") %>%
+    arrange(desc(TASA_DEF)) %>%
+    select(matches("comuna"), "DEF", "POBL", "TASA_DEF")
+  
+  comunas <- mapa_comunas %>% 
+    filter(codigo_region == num_reg) %>% 
+    left_join(
+      cod_territoriales %>%
+        select(matches("comuna"))) %>%
+    left_join(tabla_def_comuna, by = "codigo_comuna")
+  comunas <- comunas %>%
+    filter(!is.na(TASA_DEF))
+  
+  comunas_tasa_comunal_alta <- comunas %>%
+    filter(comunas$TASA_DEF > quantile(comunas$TASA_DEF, 0.75)) %>%
+    select("codigo_comuna", "nombre_comuna", "DEF", "POBL", "TASA_DEF") %>%
+    arrange(desc(TASA_DEF))
+  
+  paleta <- c("#DCA761", "#CFB567", "#BFBC71")
+  
+  grafico <- ggplot(comunas) + 
+    geom_sf(aes(fill = TASA_DEF, geometry = geometry)) +
+    gghighlight(TASA_DEF > quantile(comunas$TASA_DEF, 0.75)) +
+    geom_sf_label_repel(aes(label = nombre_comuna, geometry = geometry), force = 80, 
+                  size = 2.5, seed = 10, nudge_x = -2) +
+    scale_fill_gradientn(colours = rev(paleta), name = "Tasa de\nDefunción") +
+    labs(title = paste("Tasa de Defunción de las comunas de\nla Región de", regiones[num_reg, 2])) +
+    theme_minimal(base_size = 13) + 
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme(axis.text.x = element_blank(), axis.text.y = element_blank()) +
+    labs(x = "", y = "") 
+    
+  return(list(
+    grafico = grafico,
+    comunas_region = comunas_tasa_comunal_alta,
+    comunas_pais = comunas_alta_def
+  ))
+  
+}
+
+
+```
+
