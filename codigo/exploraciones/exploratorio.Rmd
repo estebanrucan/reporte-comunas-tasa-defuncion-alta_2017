@@ -1,0 +1,374 @@
+---
+title: "Exploratorio"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+require(gghighlight)
+require(ggsflabel)
+library(tidyverse)
+library(DT)
+require(roperators)
+
+# Global options
+options(max.print='75')
+opts_chunk$set(echo=FALSE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+```{r CARGAR BASE, include=FALSE}
+data <- rio::import('D:\\LET0010\\reporte-comunas-tasa-defuncion-alta_2017\\data\\sin-procesar\\DEF_2010-2017.csv')
+```
+
+```{r LIMPIEZA}
+variables_ya_explicadas = c('SEXO', 'EST_CIVIL', 'NIVEL_INS', 'ACTIVIDAD', 'OCUPACION', 'LOCAL_DEF', 'SERV_RES', 'CODIGO_GRUPO_DIAG1', 'AT_MEDICA', 'CAL_MEDICO')
+
+for(variable in variables_ya_explicadas){
+    data[[variable]] <- NULL
+}
+
+data_2017 <- data %>%
+    filter(ANO_DEF == 2017) %>%
+    filter(ANO_NAC < 3000)
+
+data_2017$EDAD_CANT <- data_2017$ANO_DEF - data_2017$ANO_NAC
+```
+
+```{r}
+defunciones_region <- function(num_reg) {
+  geom_regiones <- chilemapas::mapa_comunas
+  geom_regiones$codigo_region <- geom_regiones$codigo_region %>% as.numeric
+  
+  poblacion_comunas_2017 <- chilemapas::censo_2017_comunas %>%
+    group_by(codigo_comuna) %>%
+    summarise(POBL = sum(poblacion))
+  poblacion_comunas_2017$codigo_comuna <- poblacion_comunas_2017$codigo_comuna %>% as.numeric
+  
+  tabla_def_comuna <- data_2017 %>%
+    group_by(COMUNA) %>%
+    summarise(DEF = length(COMUNA))
+  
+  colnames(tabla_def_comuna)[1] <- c("codigo_comuna")
+  
+  tabla_def_comuna <- tabla_def_comuna %>% 
+    left_join(poblacion_comunas_2017, by = "codigo_comuna")
+  tabla_def_comuna <- tabla_def_comuna %>%
+    mutate(TASA_DEF = round(DEF / POBL * 100000))
+  
+  cod_territoriales <- chilemapas::codigos_territoriales
+  cod_territoriales$codigo_comuna <- cod_territoriales$codigo_comuna %>% as.numeric
+  
+  
+  
+  
+  regiones <- cod_territoriales %>%
+    filter(nombre_comuna != "Isla de Pascual") %>%
+    filter(nombre_comuna != "Juan Fernandez") %>%
+    select("codigo_region", "nombre_region") %>%
+    unique()
+  regiones$codigo_region <- regiones$codigo_region %>% as.numeric 
+  
+  mapa_comunas <- chilemapas::mapa_comunas
+  mapa_comunas$codigo_comuna <- mapa_comunas$codigo_comuna %>% as.numeric 
+  mapa_comunas$codigo_region <- mapa_comunas$codigo_region %>% as.numeric
+  
+  comunas_alta_def <- mapa_comunas %>% 
+      left_join(
+        cod_territoriales %>%
+        select(matches("comuna"))) %>%
+      left_join(tabla_def_comuna, by = "codigo_comuna") %>%
+      arrange(desc(TASA_DEF)) %>%
+      select(matches("comuna"), matches("region"), "DEF", "POBL", "TASA_DEF")
+  
+  comunas <- mapa_comunas %>% 
+      filter(codigo_comuna != 5104) %>%
+      filter(codigo_comuna != 5201) %>%
+      filter(codigo_comuna != 5101) %>%
+      filter(codigo_region == num_reg) %>% 
+      left_join(
+        cod_territoriales %>%
+        select(matches("comuna"))) %>%
+    left_join(tabla_def_comuna, by = "codigo_comuna")
+  comunas <- comunas %>%
+    filter(!is.na(TASA_DEF))
+  
+  comunas_tasa_comunal_alta <- comunas %>%
+    filter(comunas$TASA_DEF > quantile(comunas$TASA_DEF, 0.75)) %>%
+    select("codigo_comuna", "nombre_comuna", "DEF", "POBL", "TASA_DEF") %>%
+    arrange(desc(TASA_DEF))
+  
+  comunas_out <- comunas_tasa_comunal_alta %>%
+    select("nombre_comuna", "DEF", "POBL", "TASA_DEF")
+  
+  comunas_out <- comunas_out %>% as.matrix
+  rownames(comunas_out) <- comunas_out[, 1]
+
+  if (num_reg == 15) {
+    colnames(comunas_out) <- c("Comuna", "Defunciones", "Población", "Tasa Mortalidad")
+    comunas_out <- comunas_out %>% as.data.frame
+    rownames(comunas_out) <- "Arica"
+    comunas_out$Comuna <- NULL
+  } else {
+    comunas_out <- comunas_out[, 2:4]
+    colnames(comunas_out) <- c("Defunciones", "Población", "Tasa Mortalidad")
+    comunas_out <- comunas_out %>% as.data.frame
+  }
+  
+  paleta <- c("#DCA761", "#CFB567", "#BFBC71", "#9EA887", "#819897")
+  
+  grafico_2 <- ggplot(comunas) + 
+    geom_sf(aes(fill = TASA_DEF, geometry = geometry)) +
+    gghighlight(TASA_DEF > quantile(comunas$TASA_DEF, 0.75)) +
+    geom_sf_label_repel(aes(label = nombre_comuna, geometry = geometry), force = 80, 
+                  size = 2.5, seed = 10, nudge_x = -1.5) +
+    scale_fill_gradientn(colours = rev(paleta)[3:5], name = "Tasa de\nMortalidad") +
+    labs(title = paste("Tasa de Defunción de las comunas de\nla Región de", regiones[num_reg, 2])) +
+    theme_minimal(base_size = 13) + 
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme(axis.text.x = element_blank(), axis.text.y = element_blank()) +
+    labs(x = "", y = "") 
+    
+    grafico_1 <- ggplot(comunas) + 
+    geom_sf(aes(fill = TASA_DEF, geometry = geometry)) +
+    scale_fill_gradientn(colours = rev(paleta), name = "Tasa de\nMortalidad") +
+    labs(title = paste("Tasa de Defunción de las comunas de\nla Región de", regiones[num_reg, 2])) +
+    theme_minimal(base_size = 13) + 
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme(axis.text.x = element_blank(), axis.text.y = element_blank()) +
+    labs(x = "", y = "") 
+    
+  return(list(
+    grafico_compl = grafico_1,
+    grafico_quant = grafico_2,
+    comunas_region = comunas_out,
+    comunas_pais = comunas_alta_def
+  ))
+  
+}
+```
+
+```{r}
+regiones <- list()
+
+for (i in 1:16) {
+  regiones[[i]] <- defunciones_region(i)
+}
+```
+
+
+```{r}
+
+defunciones_comuna <- defunciones_region(1)$comunas_pais
+
+defunciones_por_region <- defunciones_comuna %>%
+    group_by(codigo_region) %>%
+    filter(!is.na(DEF)) %>%
+    filter(!is.na(POBL)) %>%
+    summarise(DEF = sum(DEF),
+            POBL = sum(POBL)) %>%
+    mutate(TASA_DEF = round(DEF / POBL * 100000)) %>%
+    arrange(desc(TASA_DEF))
+
+defunciones_comuna_estudio <- defunciones_comuna %>%
+  filter(TASA_DEF > 1000)
+    
+comunas_chile <- chilemapas::censo_2017_comunas
+comunas_chile$codigo_comuna <- comunas_chile$codigo_comuna %>% as.numeric
+
+# ERCILLA
+
+ercilla <- data_2017 %>% 
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[1, 1])) %>%
+    group_by(GLOSA_CAPITULO_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CAPITULO_DIAG1),
+            EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(ercilla) <- c("Causa", "Defunciones", "Edad Media")
+ercilla <- ercilla[1:5, ]
+
+detalle_ercilla <- data_2017 %>%
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[1, 1])) %>%
+    group_by(GLOSA_CATEGORIA_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CATEGORIA_DIAG1),
+              EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(detalle_ercilla) <- c("Causa", "Defunciones", "Edad Media")
+detalle_ercilla <- detalle_ercilla[1:10, ]
+
+poblacion_ercilla <- comunas_chile %>%
+    filter(codigo_comuna == as.numeric(defunciones_comuna_estudio[1, 1])) %>%
+    group_by(edad) %>%
+    summarise(POBL = sum(poblacion))
+
+poblacion_ercilla_sum <- poblacion_ercilla$POBL %>% sum
+
+# GALVARINO
+
+galvarino <- data_2017 %>% 
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[2, 1])) %>%
+    group_by(GLOSA_CAPITULO_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CAPITULO_DIAG1),
+            EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(galvarino) <- c("Causa", "Defunciones", "Edad Media")
+galvarino <- galvarino[1:5, ]
+
+detalle_galvarino <- data_2017 %>%
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[2, 1])) %>%
+    group_by(GLOSA_CATEGORIA_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CATEGORIA_DIAG1),
+              EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(detalle_galvarino) <- c("Causa", "Defunciones", "Edad Media")
+detalle_galvarino <- detalle_galvarino[1:10, ]
+
+poblacion_galvarino <- comunas_chile %>%
+    filter(codigo_comuna == as.numeric(defunciones_comuna_estudio[2, 1])) %>%
+    group_by(edad) %>%
+    summarise(POBL = sum(poblacion))
+
+poblacion_galvarino_sum <- poblacion_galvarino$POBL %>% sum
+
+# CUREPTO
+
+curepto <- data_2017 %>% 
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[3, 1])) %>%
+    group_by(GLOSA_CAPITULO_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CAPITULO_DIAG1),
+            EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(curepto) <- c("Causa", "Defunciones", "Edad Media")
+curepto <- curepto[1:5, ]
+
+detalle_curepto <- data_2017 %>%
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[3, 1])) %>%
+    group_by(GLOSA_CATEGORIA_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CATEGORIA_DIAG1),
+              EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(detalle_curepto) <- c("Causa", "Defunciones", "Edad Media")
+detalle_curepto <- detalle_curepto[1:10, ]
+
+poblacion_curepto <- comunas_chile %>%
+    filter(codigo_comuna == as.numeric(defunciones_comuna_estudio[3, 1])) %>%
+    group_by(edad) %>%
+    summarise(POBL = sum(poblacion))
+
+poblacion_curepto_sum <- poblacion_curepto$POBL %>% sum
+
+# TRAIGUEN
+
+traiguen <- data_2017 %>% 
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[4, 1])) %>%
+    group_by(GLOSA_CAPITULO_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CAPITULO_DIAG1),
+            EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(traiguen) <- c("Causa", "Defunciones", "Edad Media")
+traiguen <- traiguen[1:5, ]
+
+detalle_traiguen <- data_2017 %>%
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[4, 1])) %>%
+    group_by(GLOSA_CATEGORIA_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CATEGORIA_DIAG1),
+              EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(detalle_traiguen) <- c("Causa", "Defunciones", "Edad Media")
+detalle_traiguen <- detalle_traiguen[1:10, ]
+
+poblacion_traiguen <- comunas_chile %>%
+    filter(codigo_comuna == as.numeric(defunciones_comuna_estudio[4, 1])) %>%
+    group_by(edad) %>%
+    summarise(POBL = sum(poblacion))
+
+poblacion_traiguen_sum <- poblacion_traiguen$POBL %>% sum
+
+# RANQUIL
+
+ranquil <- data_2017 %>% 
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[5, 1])) %>%
+    group_by(GLOSA_CAPITULO_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CAPITULO_DIAG1),
+            EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(ranquil) <- c("Causa", "Defunciones", "Edad Media")
+ranquil <- ranquil[1:5, ]
+
+detalle_ranquil <- data_2017 %>% 
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[5, 1])) %>%
+    group_by(GLOSA_CATEGORIA_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CATEGORIA_DIAG1),
+              EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(detalle_ranquil) <- c("Causa", "Defunciones", "Edad Media")
+detalle_ranquil <- detalle_ranquil[1:10, ]
+
+poblacion_ranquil <- comunas_chile %>%
+    filter(codigo_comuna == as.numeric(defunciones_comuna_estudio[5, 1])) %>%
+    group_by(edad) %>%
+    summarise(POBL = sum(poblacion))
+poblacion_ranquil_sum <- poblacion_ranquil$POBL %>% sum
+
+# QUINCHAO
+
+quinchao <- data_2017 %>% 
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[6, 1])) %>%
+    group_by(GLOSA_CAPITULO_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CAPITULO_DIAG1),
+            EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+colnames(quinchao) <- c("Causa", "Defunciones", "Edad Media")
+quinchao <- quinchao[1:5, ]
+
+detalle_quinchao <- data_2017 %>%
+    filter(COMUNA == as.numeric(defunciones_comuna_estudio[6, 1])) %>%
+    group_by(GLOSA_CATEGORIA_DIAG1) %>%
+    summarise(DEF = length(GLOSA_CATEGORIA_DIAG1),
+              EDAD_MEDIA = round(mean(EDAD_CANT))) %>%
+    arrange(desc(DEF))
+detalle_quinchao <- detalle_quinchao[1:10, ]
+colnames(detalle_quinchao) <- c("Causa", "Defunciones", "Edad Media")
+
+poblacion_quinchao <- comunas_chile %>%
+    filter(codigo_comuna == as.numeric(defunciones_comuna_estudio[6, 1])) %>%
+    group_by(edad) %>%
+    summarise(POBL = sum(poblacion))
+poblacion_quinchao_sum <- poblacion_quinchao$POBL %>% sum
+
+
+
+# OTROS
+
+defunciones_por_region <- defunciones_por_region %>% 
+    arrange(codigo_region)
+fila <- apply(defunciones_por_region, 2, sum) %>% as.list
+fila$codigo_region <- "Total"
+fila$TASA_DEF <- round(fila$DEF / fila$POBL * 100000)
+defunciones_por_region <- defunciones_por_region %>% as.matrix
+defunciones_por_region <- defunciones_por_region %>% rbind(fila)
+rownames(defunciones_por_region) <- defunciones_por_region[, 1]
+defunciones_por_region <- defunciones_por_region[, 2:4] %>% as.data.frame
+colnames(defunciones_por_region) <- c("Defunciones", "Población", "Tasa Mortalidad")
+
+defunciones_comuna <- defunciones_comuna %>%
+    select("nombre_comuna", "DEF", "POBL", "TASA_DEF")
+defunciones_comuna <- defunciones_comuna[1:10, ] %>% as.matrix
+
+colnames(defunciones_comuna) <- c("Comuna", "Defunciones", "Población", "Tasa Mortalidad")
+rownames(defunciones_comuna) <- defunciones_comuna[, "Comuna"]
+defunciones_comuna <- defunciones_comuna[, -1] %>% as.data.frame
+
+rm(data, data_2017, i, fila, variable, variables_ya_explicadas, comunas_chile)
+```
+
+

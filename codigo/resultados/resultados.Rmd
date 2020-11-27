@@ -1,0 +1,127 @@
+---
+title: "Resultados"
+date: "`r Sys.Date()`"
+author: "Esteban Rucán"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+require(knitr)
+require(rmdformats)
+require(gghighlight)
+require(ggsflabel)
+require(tidyverse)
+require(DT)
+require(roperators)
+
+# Global options
+options(max.print='75')
+opts_chunk$set(echo=FALSE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+```{r LOAD WORKSPACE}
+load(here::here("codigo", "exploraciones", "enviroment", "enviroment.RData"))
+```
+
+# Información de defunciones a nivel nacional
+
+Con el fin de analizar las defunciones en Chile desde nivel nacional hasta nivel comunal, primero analizaremos a nivel nacional como es la tasa de mortalidad. Recordemos que el análisis se realizó en el año 2017.
+
+Primero hay que dejar en claro que la tasa de mortalidad es la cantidad de defunciones cada 100.000 personas en la zona estudiada.
+
+```{r T.M. BY REGION}
+defunciones_por_region %>% datatable(class = "cell-border stripe")
+```
+> Se logra apreciar que la región 14 correspondiente a la región de Los Ríos es la que presentó mayor tasa de mortalidad en el año de estudio. En cambio, la menor tasa de mortalidad la presenta la región 1, correspondiente a la región de Tarapacá.
+
+# Información de defunciones según región
+
+Para continuar el análisis se exhibirán las regiones más convenientes para el estudio. 
+
+Cada región contiene una visualización general de la región, una visualización de las comunas de la región con mayor tasa de mortalidad, y una tabla con las comunas del punto anterior. 
+
+##  {.tabset}
+
+### Región del Maule 
+
+```{r echo = FALSE}
+regiones[[7]]$grafico_compl
+```
+
+
+```{r}
+regiones[[7]]$grafico_quant
+```
+
+```{r}
+regiones[[7]]$comunas_region %>% datatable
+```
+
+
+### Región de la Araucanía
+
+```{r echo = FALSE}
+regiones[[9]]$grafico_compl
+```
+
+
+```{r}
+regiones[[9]]$grafico_quant
+```
+
+```{r}
+regiones[[9]]$comunas_region %>% datatable
+```
+
+### Región de los Lagos
+
+```{r echo = FALSE}
+regiones[[10]]$grafico_compl
+```
+
+
+```{r}
+regiones[[10]]$grafico_quant
+```
+
+```{r}
+regiones[[10]]$comunas_region %>% datatable
+```
+
+### Región Metropolitana
+
+```{r echo = FALSE}
+regiones[[13]]$grafico_compl
+```
+
+
+```{r}
+regiones[[13]]$grafico_quant
+```
+
+```{r}
+regiones[[13]]$comunas_region %>% datatable
+```
+
+### Región del Ñuble
+
+```{r echo = FALSE}
+regiones[[16]]$grafico_compl
+```
+
+
+```{r}
+regiones[[16]]$grafico_quant
+```
+
+```{r}
+regiones[[16]]$comunas_region %>% datatable
+```
