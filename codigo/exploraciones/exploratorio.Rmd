@@ -65,11 +65,8 @@ defunciones_region <- function(num_reg) {
   tabla_def_comuna <- tabla_def_comuna %>%
     mutate(TASA_DEF = round(DEF / POBL * 100000))
   
-  cod_territoriales <- chilemapas::codigos_territoriales
+  cod_territoriales <- chilemapas::codigos_territoriales#[chilemapas::codigos_territoriales$codigo_region == 13, ]
   cod_territoriales$codigo_comuna <- cod_territoriales$codigo_comuna %>% as.numeric
-  
-  
-  
   
   regiones <- cod_territoriales %>%
     filter(nombre_comuna != "Isla de Pascual") %>%
@@ -101,6 +98,11 @@ defunciones_region <- function(num_reg) {
     left_join(tabla_def_comuna, by = "codigo_comuna")
   comunas <- comunas %>%
     filter(!is.na(TASA_DEF))
+  
+  if (num_reg == 13) {
+    comunas <- comunas %>%
+      filter(codigo_provincia == "131" | codigo_comuna %in% c(13401, 13201, 13301, 13402, 13604, 13302, 13403) & codigo_comuna != 13115)
+  }
   
   comunas_tasa_comunal_alta <- comunas %>%
     filter(comunas$TASA_DEF > quantile(comunas$TASA_DEF, 0.75)) %>%
@@ -163,6 +165,8 @@ regiones <- list()
 for (i in 1:16) {
   regiones[[i]] <- defunciones_region(i)
 }
+
+regiones[[13]]$grafico_quant
 ```
 
 
@@ -356,7 +360,7 @@ fila$codigo_region <- "Total"
 fila$TASA_DEF <- round(fila$DEF / fila$POBL * 100000)
 defunciones_por_region <- defunciones_por_region %>% as.matrix
 defunciones_por_region <- defunciones_por_region %>% rbind(fila)
-rownames(defunciones_por_region) <- defunciones_por_region[, 1]
+rownames(defunciones_por_region) <- c("Tarapaca", "Antofagasta", "Atacama", "Coquimbo", "Valparaiso", "Libertador General Bernardo OHiggins", "Maule", "Biobio", "La Araucania", "Los Lagos", "Aysen del General Carlos Ibanez del Campo", "Magallanes y de la Antartica Chilena", "Metropolitana de Santiago", "Los Rios", "Arica y Parinacota", "Nuble", "Total")
 defunciones_por_region <- defunciones_por_region[, 2:4] %>% as.data.frame
 colnames(defunciones_por_region) <- c("Defunciones", "Población", "Tasa Mortalidad")
 

@@ -48,9 +48,8 @@ Para continuar el análisis se exhibirán las regiones más convenientes para el
 
 Cada región contiene una visualización general de la región, una visualización de las comunas de la región con mayor tasa de mortalidad, y una tabla con las comunas del punto anterior. 
 
-##  {.tabset}
 
-### Región del Maule 
+## Región del Maule 
 
 ```{r echo = FALSE}
 regiones[[7]]$grafico_compl
@@ -66,7 +65,7 @@ regiones[[7]]$comunas_region %>% datatable
 ```
 
 
-### Región de la Araucanía
+## Región de la Araucanía
 
 ```{r echo = FALSE}
 regiones[[9]]$grafico_compl
@@ -81,7 +80,7 @@ regiones[[9]]$grafico_quant
 regiones[[9]]$comunas_region %>% datatable
 ```
 
-### Región de los Lagos
+## Región de los Lagos
 
 ```{r echo = FALSE}
 regiones[[10]]$grafico_compl
@@ -96,7 +95,7 @@ regiones[[10]]$grafico_quant
 regiones[[10]]$comunas_region %>% datatable
 ```
 
-### Región Metropolitana
+## Región Metropolitana
 
 ```{r echo = FALSE}
 regiones[[13]]$grafico_compl
@@ -111,7 +110,7 @@ regiones[[13]]$grafico_quant
 regiones[[13]]$comunas_region %>% datatable
 ```
 
-### Región del Ñuble
+## Región del Ñuble
 
 ```{r echo = FALSE}
 regiones[[16]]$grafico_compl
@@ -125,3 +124,72 @@ regiones[[16]]$grafico_quant
 ```{r}
 regiones[[16]]$comunas_region %>% datatable
 ```
+
+# Causas de defunciones en las comunas con alta tasa de mortalidad
+
+## Quinchao
+
+```{r}
+quinchao %>% datatable
+```
+
+```{r}
+detalle_quinchao %>% datatable
+```
+
+
+## Ranquil
+
+```{r}
+ranquil %>% datatable
+```
+
+```{r}
+detalle_ranquil %>% datatable
+```
+
+
+## Traiguen
+
+```{r}
+traiguen %>% datatable
+```
+
+```{r}
+detalle_traiguen %>% datatable
+```
+
+
+## Curepto
+
+```{r}
+curepto %>% datatable
+```
+
+```{r}
+detalle_curepto %>% datatable
+```
+
+
+## Galvarino
+
+```{r}
+galvarino %>% datatable
+```
+
+```{r}
+detalle_galvarino %>% datatable
+```
+
+
+## Ercilla
+
+```{r}
+ercilla %>% datatable(rownames = FALSE)
+```
+
+```{r}
+detalle_ercilla %>% datatable
+```
+
+
