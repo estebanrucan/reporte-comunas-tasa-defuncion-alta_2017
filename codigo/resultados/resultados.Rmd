@@ -298,7 +298,7 @@ detalle_ercilla %>% datatable(class = "cell-border stripe", rownames = FALSE)
 Si bien los números de defunciones son bastante bajos, destacamos los fallecimientos por diabetes mellitus, y 2 enfermedades relacionadas con el sistema circulatorio como lo son la enfermedad cardiaca hipertensiva y el infarto agudo al miocardio.
 
 
-# Conclusiones
+# Conclusioness
 
 * En primer lugar podemos destacar que las regiones más australes son las que tienen mayores tasas de mortalidad, por lo que en mi opinión, deberían enfocarse recursos a la Zona Sur de Chile.
 
