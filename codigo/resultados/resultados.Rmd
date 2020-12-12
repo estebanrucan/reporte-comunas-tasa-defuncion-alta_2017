@@ -1,5 +1,5 @@
 ---
-title: "Resultados"
+title: "Informe final"
 date: "`r Sys.Date()`"
 author: "Esteban Rucán"
 output:
@@ -15,6 +15,7 @@ require(ggsflabel)
 require(tidyverse)
 require(DT)
 require(roperators)
+require(sf)
 
 # Global options
 options(max.print='75')
@@ -23,58 +24,63 @@ opts_chunk$set(echo=FALSE,
                tidy=TRUE,
                comment=NA,
                message=FALSE,
-               warning=FALSE)
+               warning=FALSE,
+               fig.align="center")
 opts_knit$set(width=75)
 ```
 
 ```{r LOAD WORKSPACE}
-load(here::here("codigo", "exploraciones", "enviroment", "enviroment.RData"))
+load(here::here("codigo", "exploraciones", "environment", "environment.RData"))
 ```
 
 # Información de defunciones a nivel nacional
 
-Con el fin de analizar las defunciones en Chile desde nivel nacional hasta nivel comunal, primero analizaremos a nivel nacional como es la tasa de mortalidad. Recordemos que el análisis se realizó en el año 2017.
-
-Es importante mencionar que la tasa de mortalidad es la cantidad de defunciones cada 100.000 personas en la zona estudiada.
+Con el fin de analizar las defunciones en Chile desde una perspectiva completa hasta algo más detallado, primero estudiaremos a nivel nacional como es la tasa de mortalidad. Recordatorio de que el análisis se realizó en el año 2017. Es importante mencionar que la tasa de mortalidad es entendida como la cantidad de defunciones cada 100.000 personas en la zona estudiada.
 
 ```{r T.M. BY REGION}
-defunciones_por_region %>% datatable(class = "cell-border stripe")
+defunciones_por_region %>% datatable(class = "cell-border stripe") 
 ```
+<center>
+<p>Tabla 1: Tasa de Mortalidad por Región</p>
+</center>
 
-Se logra apreciar que la región 14 correspondiente a la región de Los Ríos es la que presentó mayor tasa de mortalidad en el año de estudio. En cambio, la menor tasa de mortalidad la presenta la región 1, correspondiente a la región de Tarapacá.
+
+Tal como logra apreciar en la Tabla 1, la región de Los Ríos es la que presentó mayor tasa de mortalidad en el año de estudio. En cambio, la menor tasa de mortalidad la presenta la región de Tarapacá.
 
 # Información de defunciones según región
 
-Para continuar el análisis se exhibirán las regiones más llamativas durante el estudio. 
-
-Cada región contiene una visualización general de la región, una visualización de las comunas de la región con mayor tasa de mortalidad, y una tabla con las comunas del punto anterior. 
+A continuación, se mostrarán las regiones donde se vió una mayor tasa de mortalidad durante el estudio. Para cada región se exhibirá una visualización general, una visualización específica de las comunas de la región con mayor tasa de mortalidad, junto con una tabla con los mimos datos del punto anterior. 
 
 
 ## Región del Maule 
 
-### Vista general de la tasa de mortalidad de la región
+Ahora se enseñará un mapa con la tasa de mortalidad a nivel regional.
 
 ```{r echo = FALSE}
 regiones[[7]]$grafico_compl
 ```
 
-En esta región, las tasas de defunción son demasiado altas en general, destacando principalmente las comunas costeras.
+En esta región, las tasas de defunción son altas, y se destacan principalmente las comunas costeras.
 
-### Vista de las comunas con mayor tasa de mortalidad en la región
+El siguiente mapa destaca las comunas que tienen una mayor tasa de mortalidad en la región.
 
 ```{r}
 regiones[[7]]$grafico_quant
 ```
 
-Podemos notar dos grupos en la zona izquierda del mapa, que presentan una alta tasa de mortalidad, destaca principalmente Curepto. 
+A partir del mapa anterior es posible evidenciar 2 grupos, ubicados en la zona oeste del mapa, en particular destaca la comuna de Curepto.
 
-### Tabla con información más detallada de las comunas con tasa de mortalidad alta en la región
+La siguiente tabla muestra las comunas que aparecen en el gráfico anterior con más detalle, incluyendoo defunciones, población y tasa de mortalidad.
 
 ```{r}
 regiones[[7]]$comunas_region %>% datatable(class = "cell-border stripe")
 ```
+<center>
+<p>Tabla 2: Tasa de Mortalidad en las comunas destacadas de la región</p>
+</center>
 
-Hay 5 comunas de esta región que presentan una tasa de mortalidad considerable (mayor a 800), por lo que encuentro necesario prestar atención a esta región para tomar las medidas necesarias.
+
+Como se observa en la Tabla 2, hay 5 comunas de esta región que presentan una tasa de mortalidad considerable (mayor a 800), por lo que encuentro necesario prestar atención a esta región para tomar las medidas necesarias.
 
 ## Región de la Araucanía
 
@@ -99,6 +105,10 @@ Destacamos a 3 comunas aledañas: Traiguen, Galvarino y Ercilla, las cuales pres
 ```{r}
 regiones[[9]]$comunas_region %>% datatable(class = "cell-border stripe")
 ```
+<center>
+<p>Tabla 3: Tasa de Mortalidad en las comunas destacadas de la región</p>
+</center>
+
 
 Lamentablemente la tasa de mortalidad de las regiones especificadas es demasiado alta y muy por sobre la media nacional, las 3 primeras comunas de la tabla son las que están aledañas entre sí, por lo que es necesario prestar mayor atención a esa zona.
 
@@ -124,6 +134,10 @@ Podemos ver que las comuna de San Juan de la Costa, en conjunto a Puqueldon y Qu
 ```{r}
 regiones[[10]]$comunas_region %>% datatable(class = "cell-border stripe")
 ```
+<center>
+<p>Tabla 4: Tasa de Mortalidad en las comunas destacadas de la región</p>
+</center>
+
 Las tasas de mortalidad son muy altas en estas comunas, especial énfasis a Quinchao, que tiene una tasa de mortalidad por sobre 1000.
 
 ## Región Metropolitana
@@ -148,6 +162,10 @@ En base a mis conocimientos, podemos ver que toda las comunas resaltadas, except
 ```{r}
 regiones[[13]]$comunas_region %>% datatable(class = "cell-border stripe")
 ```
+<center>
+<p>Tabla 5: Tasa de Mortalidad en las comunas destacadas de la región</p>
+</center>
+
 
 Si bien las tasas de mortalidad de las comunas mostradas en la tabla son altas, no lo son tanto como en las regiones anteriormente señaladas.
 
@@ -172,6 +190,10 @@ Podemos ver como destaca Ranquil por sobre el resto. Sin embargo vemos que zonas
 ```{r}
 regiones[[16]]$comunas_region %>% datatable(class = "cell-border stripe")
 ```
+<center>
+<p>Tabla 6: Tasa de Mortalidad en las comunas destacadas de la región</p>
+</center>
+
 
 Hay 3 comunas con tasa de mortalidad muy elevada, podemos ver que hay diferencias a nivel de población en cada comuna.
 
@@ -179,13 +201,14 @@ Hay 3 comunas con tasa de mortalidad muy elevada, podemos ver que hay diferencia
 
 Se estudió con mayor detalle las comunas de territorio nacional con mayor tasa de mortalidad, para ello se utilizó la siguiente tabla.
 
-
-### Enfermedades que conllevaron a defunciones en la comuna
-
 ```{r}
 defunciones_comuna %>%
     datatable(class = "cell-border stripe")
 ```
+<center>
+<p>Tabla 7: Comunas con mayor tasa de defunciones a nivel país</p>
+</center>
+
 
 Donde podemos ver que hay 6 comunas a nivel nacional, con una tasa de mortalidad por sobre 1000. Estas mismas comunas serán a las que se les hizo un análisis mas profundo.
 
@@ -298,7 +321,7 @@ detalle_ercilla %>% datatable(class = "cell-border stripe", rownames = FALSE)
 Si bien los números de defunciones son bastante bajos, destacamos los fallecimientos por diabetes mellitus, y 2 enfermedades relacionadas con el sistema circulatorio como lo son la enfermedad cardiaca hipertensiva y el infarto agudo al miocardio.
 
 
-# Conclusioness
+# Conclusiones
 
 * En primer lugar podemos destacar que las regiones más australes son las que tienen mayores tasas de mortalidad, por lo que en mi opinión, deberían enfocarse recursos a la Zona Sur de Chile.
 
