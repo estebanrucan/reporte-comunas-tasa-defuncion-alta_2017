@@ -228,11 +228,16 @@ Tabla 8: Tipos de enfermedades que conllevaron a defunciones en la comuna
 
 Las enfermedades relacionadas con el sistema circulatorio fueron notoriamente las mayores causantes de defunciones en Quinchao. Además, se encontró que hay tres categorías causantes de defunciones que tuvieron media de 66 años o menos. En la tabla que se aprecia a continuación se muestra las principales enfermedades que desembocaron en una defunción en la comuna.
 
-### Enfermedades que conllevaron a defunciones en la comuna
 
 ```{r}
 detalle_quinchao %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 9: Enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
+
 
 En la tabla anterior es posible inferir que la ingesta de alcohol es muy alta en la comuna, ya que la enfermedad alcohólica del hígado es la principal causa de muerte. Además, es la enfermada que tiene edad media de defunciones más baja, alcanza los 53 años, por lo que la gente que fallece por esta enfermedad es relativamente joven.n.
 
@@ -255,6 +260,12 @@ En la Tabla 10 destacan las defunciones por Tumores, con una media de 75 años, 
 ```{r}
 detalle_ranquil %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 11: Enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
+
 
 Podemos ver en la Tabla 11 que las mayores cantidades de defunciones las tienen la diabetes mellitus y la enfermedad alcohólica del hígado.
 
@@ -277,6 +288,12 @@ Gracias a la tabla anterior es posible concluir que las defunciones asociadas a 
 ```{r}
 detalle_traiguen %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 13: Enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
+
 
 Sin considerar las defunciones no especificadas, en la Tabla 13 podemos ver que las defunciones por neumonía en esta comuna son un gran número, podemos destacar nuevamente la presencia de defunciones por enfermedad alcohólica del hígado.
 
@@ -301,6 +318,12 @@ Como ha sido tendencia en el resto de las comunas, enfermedades del sistema circ
 ```{r}
 detalle_curepto %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 15: Enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
+
 
 Se destacan las defunciones gracias a Neumonía nuevamente, al igual que la diabetes mellitus. En general las cantidades de defunciones son numeros bastante bajos, pero considerables porque es una comuna con pocos habitantes. (Ver tabla del comienzo de esta sección)
 
@@ -324,6 +347,11 @@ Nuevamente destacan los fallecimientos gracias a enfermedades del sistema circul
 ```{r}
 detalle_galvarino %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 17: Enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
 
 Acá las causas no definidas son las mayores causantes de defunciones, en verdad me gustaría conocer con más detalle este tipo de defunciones. Con un número 3 veces menor, predominan las defunciones por diabetes mellitus.
 
@@ -347,6 +375,11 @@ Como ya se acostumbró a ver en el análisis, las predominantes vuelven a ser en
 ```{r}
 detalle_ercilla %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 19: Enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
 
 Si bien los números de defunciones son bastante bajos, destacamos los fallecimientos por diabetes mellitus, y 2 enfermedades relacionadas con el sistema circulatorio como lo son la enfermedad cardiaca hipertensiva y el infarto agudo al miocardio.
 
