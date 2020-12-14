@@ -35,13 +35,53 @@ load(here::here("codigo", "exploraciones", "environment", "environment.RData"))
 
 # Resumen
 
+En Chile, gracias a los datos otorgados por el DEIS y el censo, es posible realizar un estudio de las tasas de defunciones presentes en las comunas de Chile para el año 2017. El fin de esto es encontrar patrones dentro de las regiones y así iniciar campañas de prevención donde sea necesario. Se realizó un estudio analítico de las defunciones en cada comuna y se encontraron altas tasas de defunciones en la Zona Sur del país, por lo que es necesario iniciar campañas de prevención donde fue mencionado.
+
 # Introducción
 
 # Metodología
 
+Para realizar este estudio se utilizó el software R a través de RStudio, donde se realizó un estudio descriptivo gracias a cruzar dos bases de datos. Una contiene información sobre defunciones otorgada por el Departamento de Estadísticas e información de Salud. La segunda base de datos, que contiene información sobre el Censo del año 2017, es otorgada por el package `chilemapas` de R.
+
+La primera base mencionada en el párrafo anterior, que contiene variables continuas y discretas, tiene un total de 97 variables. Se realizó una limpieza de variables, entre los criterios que destacan, se encuentra eliminar variables numéricas que ya están siendo explicadas por variables categóricas, junto con eliminar variables que tengan 40% de datos faltantes o más, finalmente se obtuvo una base de datos con 87 variables. Entre las variables numéricas más destacadas podemos encontrar:
+
+* Día de la fecha de nacimiento del fallecido.
+* Mes de la fecha de nacimiento del fallecido.
+* Año de la fecha de nacimiento del fallecido.
+* Año de la fecha de inscripción de la defunción.
+* Código del lugar ocurrencia de la defunción.
+* Código de la región de residencia del fallecido.
+* Región de residencia.
+* Código del Servicio de Salud de residencia del fallecido.
+* Código de la comuna de residencia del fallecido, de acuerdo a la división político administrativa actualizada el 2019.
+* Código para definir la zona Urbano o Rural de la residencia de la persona fallecida.
+
+Por otro lado, algunas de las variables categóricas dentro de la base de datos son las siguientes.
+
+* Causa básica de defunción en caso de muertes por enfermedades.
+* Atención Médica.
+* Estado nutritivo previo a la enfermedad cuando se trata de muerte de menor de un año.
+* Fundamento de la causa de muerte.
+* Describe el lugar donde ocurre la defunción.
+* Enfermedad que conllevó a la defunción.
+* Categoría a la que pertenece la enfermedad.
+
+A continuación, se hablará de la segunda base de datos mencionada, esta contiene una menor cantidad de variables, porque solo contiene la siguiente información para las comunas de Chile:
+
+* Código de la comuna.
+* Código de la región.
+* Rango de edad.
+* Población.
+
+Es necesario hacer hincapié en que la base de datos mencionada anteriormente solo tiene información sobre el Censo del año 2017, por lo que el análisis se redujo a ese año específicamente. 
+
+Al combinar estas bases de datos, se utilizaron estadísticos como la tasa de mortalidad (o tasa de defunción), esta consiste en establecer una esperanza de muertes cada 100.000 habitantes de la zona en estudio. Se decidió que la tasa de mortalidad de una comuna es alta, cuando la tasa de mortalidad supera al tercer cuantil de la región a la que pertenece o cuando la tasa supera un valor de 800.
+
+A continuación, para realizar el estudio comuna a comuna, se consideró mostrar dos tablas, una que muestre información sobre las categorías de enfermedades que más provocaron defunciones, esto es, a que grupo de enfermedades pertence cada enfermedad. Y posteriormente, una tabla que indique las enfermedades específicas que provocaron las mayores cantidades de defunciones en cada comuna. Ambas tablas contienen la cantidad de defunciones de cada categoría o enfermedad respectivamente en conjunto a la edad media.
+
 # Información de defunciones a nivel nacional
 
-Con el fin de analizar las defunciones en Chile desde una perspectiva completa hasta algo más detallado, primero estudiaremos a nivel nacional como es la tasa de mortalidad. Recordatorio de que el análisis se realizó en el año 2017. Es importante mencionar que la tasa de mortalidad es entendida como la cantidad de defunciones cada 100.000 personas en la zona estudiada.
+Con el fin de analizar las defunciones en Chile desde una perspectiva completa hasta algo más detallado, primero estudiaremos a nivel nacional la tasa de mortalidad. 
 
 ```{r T.M. BY REGION}
 defunciones_por_region %>% datatable(class = "cell-border stripe") 
@@ -74,7 +114,7 @@ El siguiente mapa destaca las comunas que tienen una mayor tasa de mortalidad en
 regiones[[7]]$grafico_quant
 ```
 
-A partir del mapa anterior es posible evidenciar 2 grupos, ubicados en la zona oeste del mapa, en particular destaca la comuna de Curepto.
+A partir del mapa anterior es posible evidenciar dos grupos, ubicados en la zona oeste del mapa, en particular destaca la comuna de Curepto.
 
 La siguiente tabla muestra las comunas que aparecen en el gráfico anterior con más detalle, incluyendoo defunciones, población y tasa de mortalidad.
 
@@ -86,7 +126,7 @@ regiones[[7]]$comunas_region %>% datatable(class = "cell-border stripe")
 </center>
 
 
-Como se observa en la Tabla 2, hay 5 comunas de esta región que presentan una tasa de mortalidad considerable (mayor a 800), por lo que encuentro necesario prestar atención a esta región para tomar las medidas necesarias.
+Como se observa en la Tabla 2, hay cinco comunas de esta región que presentan una tasa de mortalidad considerable (mayor a 800), por lo que encuentro necesario prestar atención a esta región para tomar las medidas necesarias.
 
 ## Región de la Araucanía
 
@@ -104,7 +144,7 @@ Como se observa, existe una concentración de tasa de mortalidad alta en la zona
 regiones[[9]]$grafico_quant
 ```
 
-En este mapa se destacan a 3 comunas aledañas: Traiguen, Galvarino y Ercilla, que presentan una tasa de mortalidad bastante alta. En la siguiente tabla se encuentra el detalle de la tasa de mortalidad por comuna en la región.
+En este mapa se destacan a tres comunas aledañas: Traiguen, Galvarino y Ercilla, que presentan una tasa de mortalidad bastante alta. En la siguiente tabla se encuentra el detalle de la tasa de mortalidad por comuna en la región.
 
 ```{r}
 regiones[[9]]$comunas_region %>% datatable(class = "cell-border stripe")
@@ -299,7 +339,7 @@ Sin considerar las defunciones no especificadas, en la Tabla 13 podemos ver que 
 
 ## Curepto
 
-
+Continuando el estudio, se enseñaran las categorías de enfermedades que más causaron defunciones en Curepto, junto a la cantidad de estas y la edad media respectiva. Para ello veamos la siguiente tabla. 
 
 ```{r}
 curepto %>% datatable(class = "cell-border stripe", rownames = FALSE)
@@ -311,9 +351,8 @@ Tabla 14: Tipos de enfermedades que conllevaron a defunciones en la comuna
 </center>
 
 
-Como ha sido tendencia en el resto de las comunas, enfermedades del sistema circulatorio son las mayores causantes de defunciones en Curepto, seguidas por una cantidad parecida de defunciones por Tumores, que cobraron la vida de personas que en promedio tenían 70 años.
+A partir de la tabla anterior, es posible concluir que enfermedades del sistema circulatorio son las mayores causantes de defunciones en la comuna de Curepto. También existe una cantidad parecida de defunciones por Tumores, que cobraron la vida de personas que en promedio tenían 70 años de edad. La tabla posterior indica con mayor especificidad las enfermedades que más llevaron a defunciones en la comuna.
 
-### Enfermedades que conllevaron a defunciones en la comuna
 
 ```{r}
 detalle_curepto %>% datatable(class = "cell-border stripe", rownames = FALSE)
@@ -325,11 +364,11 @@ Tabla 15: Enfermedades que conllevaron a defunciones en la comuna
 </center>
 
 
-Se destacan las defunciones gracias a Neumonía nuevamente, al igual que la diabetes mellitus. En general las cantidades de defunciones son numeros bastante bajos, pero considerables porque es una comuna con pocos habitantes. (Ver tabla del comienzo de esta sección)
+Se destacan en la Tabla 15 las defunciones producidas por Neumonía, al igual que la diabetes mellitus. En general las cantidades de defunciones son bajas, pero considerables, ya que es una comuna con pocos habitantes. (Ver tabla del comienzo de esta sección)
 
 ## Galvarino
 
-### Categorías con mayor cantidad de defunciones en la comuna
+Esta comuna, ubicada en la región de la Araucanía, presenta los siguientes tipos de enfermedades que terminaron en defunciones.
 
 ```{r}
 galvarino %>% datatable(class = "cell-border stripe", rownames = FALSE)
@@ -340,9 +379,8 @@ Tabla 16: Tipos de enfermedades que conllevaron a defunciones en la comuna
 </p>
 </center>
 
-Nuevamente destacan los fallecimientos gracias a enfermedades del sistema circulatorio, seguidos por cifras considerables de defunciones por Tumores y hallazgos anormales.
+Podemos ver en la Tabla 16 que destacan los fallecimientos gracias a enfermedades del sistema circulatorio, seguidos por cifras altas de defunciones por Tumores y hallazgos anormales. Es posible ver en la tabla de a continuación, las enfermedades específicas que produjeron la mayor cantidad de muertes en la comuna de Galvarino.
 
-### Enfermedades que conllevaron a defunciones en la comuna
 
 ```{r}
 detalle_galvarino %>% datatable(class = "cell-border stripe", rownames = FALSE)
@@ -353,11 +391,11 @@ Tabla 17: Enfermedades que conllevaron a defunciones en la comuna
 </p>
 </center>
 
-Acá las causas no definidas son las mayores causantes de defunciones, en verdad me gustaría conocer con más detalle este tipo de defunciones. Con un número 3 veces menor, predominan las defunciones por diabetes mellitus.
+En esta tabla, las causas no definidas son las mayores causantes de defunciones, no se pudo contar en el análisis con más información sobre estas defunciones. Con un número tres veces menor, predominan las defunciones por diabetes mellitus. 
 
 ## Ercilla
 
-### Categorías con mayor cantidad de defunciones en la comuna
+Esta es una comuna que se encuentra en la Región de la Araucanía y fue la última comuna a la que se le realizó un análisis más profundo. La siguiente tabla habla de las categorías de enfermedades que conllevaron a defunciones.
 
 ```{r}
 ercilla %>% datatable(class = "cell-border stripe", rownames = FALSE)
@@ -368,9 +406,8 @@ Tabla 18: Tipos de enfermedades que conllevaron a defunciones en la comuna
 </p>
 </center>
 
-Como ya se acostumbró a ver en el análisis, las predominantes vuelven a ser enfermedades del sistema circulatorio, y tumores, con una edad media de 82 y 74 años respectivamente.
+En la Tabla 18, las categorías predominantes son las enfermedades del sistema circulatorio y tumores, con una edad media de 82 y 74 años respectivamente. En la Tabla 19 se podrá ver más exactamente cuáles son las enfermedades que más defunciones producen defunciones en la comuna de Ercilla.
 
-### Enfermedades que conllevaron a defunciones en la comuna
 
 ```{r}
 detalle_ercilla %>% datatable(class = "cell-border stripe", rownames = FALSE)
@@ -381,19 +418,25 @@ Tabla 19: Enfermedades que conllevaron a defunciones en la comuna
 </p>
 </center>
 
-Si bien los números de defunciones son bastante bajos, destacamos los fallecimientos por diabetes mellitus, y 2 enfermedades relacionadas con el sistema circulatorio como lo son la enfermedad cardiaca hipertensiva y el infarto agudo al miocardio.
+Dada la información en la tabla anterior, se puede observar que las defunciones son bajas, aún así sobresalen los fallecimientos por diabetes mellitus. Además destacan dos enfermedades relacionadas con el sistema circulatorio, como lo son la enfermedad cardiaca hipertensiva y el infarto agudo al miocardio.
 
 
 # Conclusiones
 
-* En primer lugar podemos destacar que las regiones más australes son las que tienen mayores tasas de mortalidad, por lo que en mi opinión, deberían enfocarse recursos a la Zona Sur de Chile.
+Una vez exhibidos los resultados obtenidos durante la investigación, podemos obtener la conclusión de que dentro del territorio nacional, las regiones más australes son las que tienen mayores tasas de mortalidad, por lo que en mi opinión, deberían enfocarse recursos a la Zona Sur de Chile. 
 
-* La distribución de las tasas de mortalidad en las comunas en algunos casos sigue alguna especie de patrón dependiendo de la región. Resultaría conveniente investigar las causantes de esos tipos de patrones.
+La existencia de patrones, como por ejemplo, que hayan más defunciones en la zona costera que en la cordillerana, es muy importante de investigar con el fin de enfocar los recursos a estas zonas. Es necesario señalar que la existencia de patrones dentro de cada región, también es necesario estudiarla con más detalle.
 
-* En la mayoría de las comunas estudiadas, predominó las defunciones por enfermedades al sistema circulatorio, por lo que se debe continuar invirtiendo en campañas de difusión y prevención de estas.
+A través de una vista panorámica de las causantes de defunciones, podemos ver desde la Tabla 8 en adelante, que las enfermedades predominantes son las relacionadas con el sistema circulatorio. Es importante incrementar las campañas de prevención para prevenir estas enfermedades que afectan a la población que pertenece al grupo etario de entre los 50 y 70 años de edad ("Infarto al miocardio". Hospitales Angeles, s. f.).
 
-* Me llamó la atención las muertes por enfermedad alcohólica al hígado, estas se podrían reducir aumentando la concienciación de los riegos de la alta ingesta de alcohol a lo largo de la vida.
+Hablando específicamente de las enfermedades, una de las que más sobresalió fue la enfermedad hepática al hígado. En general, Chile es un país que presenta altos índices de consumo de alcohol, que han ido presentando incrementos en los últimos años. ("Aumento del consumo de alcohol, el otro efecto de la pandemia". Universidad San Sebastian, (s. f.)). La otra enfermedad que destacó también fue la diabetes mellitus, que si bien el factor genético es inalterable, hay estudios que señalan que malos hábitos alimentarios incrementan el riesgo de desarrollar diabetes, en especial en estudiantes universitarios. (Fernandez M. & López M., 2019). En mi opinión, iniciar campañas preventivas que generen difusión y concientización es muy importante con el fin de disminuir la cantidad de fallecimientos que presentan ambas enfermedades.
 
-* Si bien ya realicé anteriormente un comentario sobre esto, las defunciones por diabetes mellitus podrían ser reducidas realizando una mayor difusión de los riesgos en tenes malos hábitos alimenticios. Si desee temprana edad se cuidan buenos hábitos, la calidad de vida de las personas se vería aumentada y podrían verse disminuidas las cantidades de defunciones en el territorio nacional.
+Finalmente, encuentro que existe la necesidad de realizar un análisis con más profundidad, que otorgue más información sobre las características sociales de las personas que habitan en comunas con tasa de mortalidad alta, porque Chile es un país desarrollado, y por esto, contará con grandes números de defunciones sobre las enfemedades señaladas durante el informe.
 
-* Queda pendiente realizar un estudio más profundo y encontrar patrones o características sociales de las personas de las comunas de estudio, para mejorar las campañas de prevención y concienciación.
+# Referencias bibliográficas
+
+(1) Infarto de miocardio (s. f.). Hospitales Angeles. Recuperado de: <https://hospitalesangeles.com/saludyvida/padecimientos/articulo.php?id=1149#:~:text=La%20edad%20promedio%20de%20mayor,los%20factores%20de%20riesgo%20que>.
+
+(2) Aumento del consumo de alcohol, el otro efecto de la pandemia (s. f.). Universidad San Sebastian. Recuperado de: <https://www.uss.cl/blog/aumento-consumo-alcohol-pandemia/>.
+
+(3) Fernandez M. & López M. (2019) Relación entre hábitos alimentarios y riesgo de desarrollar diabetes en universitarios mexicanos. Nutrición Clínica y Dietética Hospitalaria. 39(4): 32-40.
