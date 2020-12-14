@@ -1,5 +1,5 @@
 ---
-title: "Informe final"
+title: "Reporte de las comunas chilenas con mayor tasa de defunciones en el 2017"
 date: "`r Sys.Date()`"
 author: "Esteban Rucán"
 output:
@@ -33,6 +33,12 @@ opts_knit$set(width=75)
 load(here::here("codigo", "exploraciones", "environment", "environment.RData"))
 ```
 
+# Resumen
+
+# Introducción
+
+# Metodología
+
 # Información de defunciones a nivel nacional
 
 Con el fin de analizar las defunciones en Chile desde una perspectiva completa hasta algo más detallado, primero estudiaremos a nivel nacional como es la tasa de mortalidad. Recordatorio de que el análisis se realizó en el año 2017. Es importante mencionar que la tasa de mortalidad es entendida como la cantidad de defunciones cada 100.000 personas en la zona estudiada.
@@ -45,7 +51,7 @@ defunciones_por_region %>% datatable(class = "cell-border stripe")
 </center>
 
 
-Tal como logra apreciar en la Tabla 1, la región de Los Ríos es la que presentó mayor tasa de mortalidad en el año de estudio. En cambio, la menor tasa de mortalidad la presenta la región de Tarapacá.
+Tal como se logra apreciar en la Tabla 1, la región de Los Ríos es la que presentó mayor tasa de mortalidad en el año de estudio. En cambio, la menor tasa de mortalidad la presenta la región de Tarapacá.
 
 # Información de defunciones según región
 
@@ -84,23 +90,21 @@ Como se observa en la Tabla 2, hay 5 comunas de esta región que presentan una t
 
 ## Región de la Araucanía
 
-### Vista general de la tasa de mortalidad de la región
+En el caso de la región de la Araucanía también se aprecia una alta tasa de mortalidad en algunas comunas. El siguiente mapa muestra la visión global en esta región
+
 
 ```{r echo = FALSE}
 regiones[[9]]$grafico_compl
 ```
 
-Se nota una concentración de tasa de mortalidad alta en la parte superior derecha del mapa, el resto de las comunas están por sobre la media nacional.
+Como se observa, existe una concentración de tasa de mortalidad alta en la zona noroeste del mapa. Cabe señalar que el resto de las comunas están por sobre la media nacional. Ahora veamos un mapa de las comunas con mayor tasa de mortalidad en la región. En el caso del análisis por región, el siguiente mapa identifica las comunas con la mayor tasa de mortalidad en la Araucanía.
 
-### Vista de las comunas con mayor tasa de mortalidad en la región
 
 ```{r}
 regiones[[9]]$grafico_quant
 ```
 
-Destacamos a 3 comunas aledañas: Traiguen, Galvarino y Ercilla, las cuales presentan una tasa de mortalidad bastante alta, encuentro necesario que se dedique un mayor análisis a estas 3 comunas para tomar medidas.
-
-### Tabla con información más detallada sobre comunas con tasa de mortalidad alta en la región
+En este mapa se destacan a 3 comunas aledañas: Traiguen, Galvarino y Ercilla, que presentan una tasa de mortalidad bastante alta. En la siguiente tabla se encuentra el detalle de la tasa de mortalidad por comuna en la región.
 
 ```{r}
 regiones[[9]]$comunas_region %>% datatable(class = "cell-border stripe")
@@ -109,55 +113,52 @@ regiones[[9]]$comunas_region %>% datatable(class = "cell-border stripe")
 <p>Tabla 3: Tasa de Mortalidad en las comunas destacadas de la región</p>
 </center>
 
-
-Lamentablemente la tasa de mortalidad de las regiones especificadas es demasiado alta y muy por sobre la media nacional, las 3 primeras comunas de la tabla son las que están aledañas entre sí, por lo que es necesario prestar mayor atención a esa zona.
+Como se observa, la tasa de mortalidad de las regiones anteriormente mencionadas es muy alta y se encuentra por sobre la media nacional.
 
 ## Región de los Lagos
 
-### Vista general de la tasa de mortalidad de la región
+Como veremos en el siguiente mapa de la región, Los Lagos también presenta una tasa de defunción alta.
+
 
 ```{r echo = FALSE}
 regiones[[10]]$grafico_compl 
 ```
 
-La zona norte es la que presenta mayor tasa de mortalidad, esta es otra zona del mapa que necesita más atención. En general, se puede ver que la tasa de defunciones es bastante variada.
+La zona norte es la que presenta mayor tasa de mortalidad. En general, se puede ver que la tasa de defunciones es bastante variada. En el mapa de a continuación, se podrá apreciar una visualización de las comunas con mayor tasa de mortalidad en la región.
 
-### Vista de las comunas con mayor tasa de mortalidad en la región
 
 ```{r}
 regiones[[10]]$grafico_quant
 ```
-Podemos ver que las comuna de San Juan de la Costa, en conjunto a Puqueldon y Quinchao, tienen una tasa de mortalidad muy considerable.
 
-### Tabla con información más detallada de las comunas con tasa de mortalidad alta en la región
+Gracias a este mapa, podemos ver que las comuna de San Juan de la Costa, Puqueldon y Quinchao tienen una tasa de mortalidad muy elevada. En la siguiente tabla se puede apreciar con mayor detalle las comunas con tasa de defunción alta.
 
 ```{r}
 regiones[[10]]$comunas_region %>% datatable(class = "cell-border stripe")
 ```
+
 <center>
 <p>Tabla 4: Tasa de Mortalidad en las comunas destacadas de la región</p>
 </center>
 
-Las tasas de mortalidad son muy altas en estas comunas, especial énfasis a Quinchao, que tiene una tasa de mortalidad por sobre 1000.
+Es posible apreciar en la Tabla 4 que las tasas de mortalidad son muy altas en estas comunas, se puede hacer especial énfasis a Quinchao, que tiene una tasa de mortalidad sobre 1000 personas por cada 100000 habitantes.
 
 ## Región Metropolitana
 
-### Vista general de la tasa de mortalidad de la región
+A continuación se mostrará el mapa de la Región Metropolitana (RM) para apreciar generalmente la tasa de defunción de cada comuna, en este caso se omitieron algunas comunas periféricas para que se visualize mejor la ciudad de Santiago.
 
 ```{r echo = FALSE}
 regiones[[13]]$grafico_compl
 ```
-Se puede apreciar que las comunas con mayor tasa de mortalidad pertenecen a la zona céntrica de la provincia de santiago.
+Se puede apreciar que las comunas con mayor tasa de mortalidad pertenecen a la zona céntrica de la RM, sin embargo la comuna más central (Santiago Centro), presenta una tasa de mortalidad más baja en comparación a las comunas aledañas. La gráfica de a continuación, resalta solo las comunas con tasa de defunción alta.
 
-### Vista de las comunas con mayor tasa de mortalidad en la región
 
 ```{r}
 regiones[[13]]$grafico_quant
 ```
 
-En base a mis conocimientos, podemos ver que toda las comunas resaltadas, excepto Providencia, pertenecen a estratos sociales medios-bajos. Sería interesante un análisis sobre si existe una relación entre la calidad de los establecimientos de salud y el nivel socioeconómico de la población circundante. 
+En este mapa se logra evidenciar que toda las comunas resaltadas, excepto Providencia, pertenecen a estratos sociales medios-bajos. El lector puede ver más detalles sobre estas comunas en la siguiente tabla.
 
-### Tabla con información más detallada de las comunas con tasa de mortalidad alta en la región
 
 ```{r}
 regiones[[13]]$comunas_region %>% datatable(class = "cell-border stripe")
@@ -167,25 +168,24 @@ regiones[[13]]$comunas_region %>% datatable(class = "cell-border stripe")
 </center>
 
 
-Si bien las tasas de mortalidad de las comunas mostradas en la tabla son altas, no lo son tanto como en las regiones anteriormente señaladas.
+La tabla anterior nos permite observar que si bien las tasas de mortalidad de la región son altas, no lo son tanto como en las regiones anteriormente señaladas.
 
 ## Región del Ñuble
 
-### Vista general de la tasa de mortalidad de la región
+La siguiente visualización permite hacer dar cuenta de las tasas de defunción en la región del Ñuble.
+
 
 ```{r echo = FALSE}
 regiones[[16]]$grafico_compl
 ```
-Hay una tasa de mortalidad bastante variante en la región de estudio, además aparentemente no es posible señalar una tendencia. Hay una comuna que destaca en particular, que esta en la zona costera de la región, y que tiene una tasa de mortalidad sobresaliente comparada al resto.
+Esta visualización nos informa que hay una tasa de mortalidad bastante variada a lo largo de la región de estudio, además aparentemente no es posible señalar una tendencia. Hay una comuna que destaca en particular, que esta en la zona costera de la región, y que tiene una tasa de mortalidad sobresaliente comparada al resto. A continuación, se exhibe un mapa donde se puede observar a las comunas con mayor tasa de mortalidad.
 
-### Vista de las comunas con mayor tasa de mortalidad en la región
 
 ```{r}
 regiones[[16]]$grafico_quant
 ```
-Podemos ver como destaca Ranquil por sobre el resto. Sin embargo vemos que zonas ubicadas en el sector occidente de la región tienen una tasa de mortalidad alta.
+Podemos ver como destaca Ranquil por sobre el resto en este mapa. Sin embargo vemos que zonas ubicadas en el sector occidente de la región tienen una tasa de mortalidad alta. En la siguiente tabla se muestran más detalles sobre estas comunas.
 
-### Tabla con información más detallada de las comunas con tasa de mortalidad alta en la región
 
 ```{r}
 regiones[[16]]$comunas_region %>% datatable(class = "cell-border stripe")
@@ -195,11 +195,11 @@ regiones[[16]]$comunas_region %>% datatable(class = "cell-border stripe")
 </center>
 
 
-Hay 3 comunas con tasa de mortalidad muy elevada, podemos ver que hay diferencias a nivel de población en cada comuna.
+La Tabla 6 nos permite observar que hay tres comunas con tasa de mortalidad muy elevada, podemos ver que hay diferencias a nivel de población en cada comuna.
 
 # Causas de defunciones en las comunas con alta tasa de mortalidad
 
-Se estudió con mayor detalle las comunas de territorio nacional con mayor tasa de mortalidad, para ello se utilizó la siguiente tabla.
+Se estudió con mayor detalle las comunas de territorio nacional con mayor tasa de mortalidad. Para ello, se utilizó la siguiente tabla.
 
 ```{r}
 defunciones_comuna %>%
@@ -210,17 +210,23 @@ defunciones_comuna %>%
 </center>
 
 
-Donde podemos ver que hay 6 comunas a nivel nacional, con una tasa de mortalidad por sobre 1000. Estas mismas comunas serán a las que se les hizo un análisis mas profundo.
+En la Tabla 7 se hace evidente que hay seis comunas a nivel nacional con una tasa de mortalidad por sobre 1000. Debido a esta alta tasa de mortalidad, se decidió hacer un análisis en profundidad sobre ellas.
 
 ## Quinchao
 
-### Categorías con mayor cantidad de defunciones en la comuna
+La siguiente tabla muestra la cantidad de defunciones y la edad media de las personas que fallecieron según el tipo de enfermedad en Quinchao.
 
 ```{r}
 quinchao %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 8: Tipos de enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
 
-Las enfermedades relacionadas con el sistema circulatorio fueron notoriamente las mayores causantes de defunciones en Quinchao. Además se encontró que hay 3 categorías causantes de defunciones que tuvieron media de 66 años o menos, por lo que resultaría muy interesante analizar los motivos de estas defunciones.
+
+Las enfermedades relacionadas con el sistema circulatorio fueron notoriamente las mayores causantes de defunciones en Quinchao. Además, se encontró que hay tres categorías causantes de defunciones que tuvieron media de 66 años o menos. En la tabla que se aprecia a continuación se muestra las principales enfermedades que desembocaron en una defunción en la comuna.
 
 ### Enfermedades que conllevaron a defunciones en la comuna
 
@@ -228,51 +234,65 @@ Las enfermedades relacionadas con el sistema circulatorio fueron notoriamente la
 detalle_quinchao %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
 
-En esta comuna podemos inferir que la ingesta de alcohol es muy alta, ya que la enfermedad alcohólica del hígado tiene relación con esto, se logra apreciar que la edad media de defunciones de este tipo es 53 años, por lo que la gente que fallece por esta enfermedad es relativamente joven.
+En la tabla anterior es posible inferir que la ingesta de alcohol es muy alta en la comuna, ya que la enfermedad alcohólica del hígado es la principal causa de muerte. Además, es la enfermada que tiene edad media de defunciones más baja, alcanza los 53 años, por lo que la gente que fallece por esta enfermedad es relativamente joven.n.
 
 ## Ranquil
 
-### Categorías con mayor cantidad de defunciones en la comuna
+Siguiendo con el análisis de cada comuna, veamos una tabla con las categorías de para el caso de Ranquil, una de las zonas con mayor tasa de defunción.
 
 ```{r}
 ranquil %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 10: Tipos de enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
 
-Acá destacan las defunciones por Tumores, con una media de 75 años, seguida nuevamente por las enfermedades asociadas al sistema circulatorio, con una media de 75 años.
+En la Tabla 10 destacan las defunciones por Tumores, con una media de 75 años, seguida nuevamente por las enfermedades asociadas al sistema circulatorio, con una media de 75 años. Podremos ver en detalle las enfermedades que más causaron defunciones en la tabla de a continuación.
 
-### Enfermedades que conllevaron a defunciones en la comuna
 
 ```{r}
 detalle_ranquil %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
 
-En esta comuna las mayores cantidades de defunciones las tienen la diabetes mellitus y la enfermedad alcohólica del hígado. Si bien la diabetes mellitus puede heredarse, es bueno informar desde temprana edad a los habitantes de esta comuna como prevenir este tipo causantes de defunciones, al igual que la enfermedad alcohólica del hígado.
+Podemos ver en la Tabla 11 que las mayores cantidades de defunciones las tienen la diabetes mellitus y la enfermedad alcohólica del hígado.
 
 ## Traiguen
 
-### Categorías con mayor cantidad de defunciones en la comuna
+Continuando el estudio, la siguiente tabla señala información sobre las categorías de las enfermedades que causaron defunciones en la comuna de Traiguen.
 
 ```{r}
 traiguen %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 12: Tipos de enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
 
-Aquí las defunciones asociadas a enfermedades del sistema circulatorio vuelven a predominar ampliamente, seguidas luego por las enfermedades del sistema respiratorio. Las defunciones por causas externas cobraron la vida de personas de en promedio 49 años, una edad muy temprana.
+Gracias a la tabla anterior es posible concluir que las defunciones asociadas a enfermedades del sistema circulatorio a predominan ampliamente, seguidas luego por las enfermedades del sistema respiratorio. Las defunciones por causas externas cobraron la vida de personas que en promedio tenían 49 años, una edad muy temprana. Podemos ver con aún mas detalle las enfermedades específicas que causaron defunciones en la comuna en la siguiente tabla.
 
-### Enfermedades que conllevaron a defunciones en la comuna
 
 ```{r}
 detalle_traiguen %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
 
-Sin considerar las defunciones no especificadas, las defunciones por neumonía en esta comuna ocupan un gran número, podemos destacar nuevamente la presencia de defunciones por enfermedad alcohólica del hígado.
+Sin considerar las defunciones no especificadas, en la Tabla 13 podemos ver que las defunciones por neumonía en esta comuna son un gran número, podemos destacar nuevamente la presencia de defunciones por enfermedad alcohólica del hígado.
 
 ## Curepto
 
-### Categorías con mayor cantidad de defunciones en la comuna
+
 
 ```{r}
 curepto %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 14: Tipos de enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
+
 
 Como ha sido tendencia en el resto de las comunas, enfermedades del sistema circulatorio son las mayores causantes de defunciones en Curepto, seguidas por una cantidad parecida de defunciones por Tumores, que cobraron la vida de personas que en promedio tenían 70 años.
 
@@ -291,6 +311,11 @@ Se destacan las defunciones gracias a Neumonía nuevamente, al igual que la diab
 ```{r}
 galvarino %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 16: Tipos de enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
 
 Nuevamente destacan los fallecimientos gracias a enfermedades del sistema circulatorio, seguidos por cifras considerables de defunciones por Tumores y hallazgos anormales.
 
@@ -309,6 +334,11 @@ Acá las causas no definidas son las mayores causantes de defunciones, en verdad
 ```{r}
 ercilla %>% datatable(class = "cell-border stripe", rownames = FALSE)
 ```
+<center>
+<p>
+Tabla 18: Tipos de enfermedades que conllevaron a defunciones en la comuna
+</p>
+</center>
 
 Como ya se acostumbró a ver en el análisis, las predominantes vuelven a ser enfermedades del sistema circulatorio, y tumores, con una edad media de 82 y 74 años respectivamente.
 
@@ -334,4 +364,3 @@ Si bien los números de defunciones son bastante bajos, destacamos los fallecimi
 * Si bien ya realicé anteriormente un comentario sobre esto, las defunciones por diabetes mellitus podrían ser reducidas realizando una mayor difusión de los riesgos en tenes malos hábitos alimenticios. Si desee temprana edad se cuidan buenos hábitos, la calidad de vida de las personas se vería aumentada y podrían verse disminuidas las cantidades de defunciones en el territorio nacional.
 
 * Queda pendiente realizar un estudio más profundo y encontrar patrones o características sociales de las personas de las comunas de estudio, para mejorar las campañas de prevención y concienciación.
-

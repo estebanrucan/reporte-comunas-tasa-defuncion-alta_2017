@@ -360,7 +360,7 @@ fila$codigo_region <- "Total"
 fila$TASA_DEF <- round(fila$DEF / fila$POBL * 100000)
 defunciones_por_region <- defunciones_por_region %>% as.matrix
 defunciones_por_region <- defunciones_por_region %>% rbind(fila)
-rownames(defunciones_por_region) <- c("Tarapaca", "Antofagasta", "Atacama", "Coquimbo", "Valparaiso", "Libertador General Bernardo OHiggins", "Maule", "Biobio", "La Araucania", "Los Lagos", "Aysen del General Carlos Ibanez del Campo", "Magallanes y de la Antartica Chilena", "Metropolitana de Santiago", "Los Rios", "Arica y Parinacota", "Nuble", "Total")
+rownames(defunciones_por_region) <- c("Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso", "Libertador General Bernardo O'higgins", "Maule", "Biobío", "La Araucanía", "Los Lagos", "Aysén del General Carlos Ibanez del Campo", "Magallanes y de la Antartica Chilena", "Metropolitana de Santiago", "Los Ríos", "Arica y Parinacota", "Ñuble", "Total")
 defunciones_por_region <- defunciones_por_region[, 2:4] %>% as.data.frame
 colnames(defunciones_por_region) <- c("Defunciones", "Población", "Tasa Mortalidad")
 
