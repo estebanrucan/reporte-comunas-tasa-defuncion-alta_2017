@@ -15,4 +15,4 @@
 
 ## Informe final
 
-* El reporte final se encuentra en el archivo [`reporte-comunas-con-mayor-tasa-de-defunciones-2017.Rmd`](https://github.com/estebanrucan/reporte-comunas-tasa-defuncion-alta_2017/blob/master/productos/informe/reporte-comunas-con-mayor-tasa-de-defunciones-2017.html), encontrado en la carpeta "productos".
+* El reporte final se encuentra en el archivo [`reporte-comunas-con-mayor-tasa-de-defunciones-2017.html`](https://github.com/estebanrucan/reporte-comunas-tasa-defuncion-alta_2017/blob/master/productos/informe/reporte-comunas-con-mayor-tasa-de-defunciones-2017.html), encontrado en la carpeta "productos". ([Versión distribuible](http://happy-lalande-b0a47f.netlify.app/))
