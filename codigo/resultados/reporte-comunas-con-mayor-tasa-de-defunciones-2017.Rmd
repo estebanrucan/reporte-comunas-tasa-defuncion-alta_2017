@@ -94,7 +94,9 @@ Luego, para realizar el estudio comuna a comuna, se seleccionaron las que tengan
 Con el fin de analizar las defunciones en Chile desde una perspectiva completa hasta algo más detallado, primero estudiaremos a nivel nacional la tasa de mortalidad. 
 
 ```{r T.M. BY REGION}
-defunciones_por_region %>% datatable(class = "cell-border stripe") 
+defunciones_por_region %>% 
+    datatable(class = "cell-border stripe") %>% 
+    formatStyle('Tasa Mortalidad', target = 'row', backgroundColor = styleEqual(c(606), c('#F9B8AA')))
 ```
 <center>
 <p>Tabla 1: Tasa de Mortalidad por Región</p>
@@ -105,7 +107,7 @@ Tal como se logra apreciar en la Tabla 1, la región de Los Ríos es la que pres
 
 # Información de defunciones según región
 
-Se consideraron cinco regiones donde se pueden apreciar las comunas con tasa de defunción más alta, para comenzar se presentará a la región del Maule.
+Se consideraron cinco regiones donde se pueden apreciar comunas con tasa de defunción alta, para comenzar se presentará a la región del Maule.
 
 ## Región del Maule 
 
