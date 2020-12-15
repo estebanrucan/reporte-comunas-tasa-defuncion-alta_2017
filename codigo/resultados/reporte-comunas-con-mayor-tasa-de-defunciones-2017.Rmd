@@ -35,11 +35,17 @@ load(here::here("codigo", "exploraciones", "environment", "environment.RData"))
 
 # Resumen
 
-En Chile, gracias a los datos otorgados por el DEIS y el censo, es posible realizar un estudio de las tasas de defunciones presentes en las comunas de Chile para el año 2017. El fin de esto es encontrar patrones dentro de las regiones y así iniciar campañas de prevención donde sea necesario. Se realizó un estudio analítico de las defunciones en cada comuna y se encontraron altas tasas de defunciones en la Zona Sur del país, por lo que es necesario iniciar campañas de prevención donde fue mencionado.
+En Chile, gracias a los datos otorgados por el DEIS y el censo, es posible realizar un estudio, mediante uso de software estadístico, de las tasas de defunciones presentes en las comunas de Chile para el año 2017. El fin del análisis es encontrar patrones de comunas con alta tasa de mortalidad dentro de las regiones y así iniciar campañas de prevención donde sea necesario. Se realizó un estudio analítico de las defunciones en cada comuna, y así, se encontraron altas tasas de mortalidad en la Zona Sur del país con mayor énfasis en la región de la Araucanía, destacando enfermedades como la diabetes mellitus, enfermedades asociadas con el sistema circulatorio y enfermedad alcohólica del hígado, por lo que es necesario iniciar campañas de prevención en esos lugares. 
 
 # Introducción
 
-Las
+Desde 1990 hasta la actualidad, en Chile existe un registro continuo, centralizado y obligatorio de las defunciones originadas en el país, por lo que la información de mortalidad se obtiene a través de estos datos. Podemos conocer abiertamente características como la frecuencia y la localización territorial. Particularmente en este informe, se hablará sobre la tasa de defunciones (o tasa de mortalidad) en las comunas del país que así lo ameriten y luego, un análisis específico buscando las enfermedades que conllevaron a una alta tasa de defunciones, todo esto en el contexto del año 2017.
+
+Una alta tasa de mortalidad, quiere decir que en una zona están falleciendo más personas de lo habitual, por lo que este reporte se basará en el principio de que una zona que tenga una tasa alta necesita ser estudiada en profundidad para tomar medidas, porque por el contrario, estarán falleciendo personas por causas que pueden ser controladas por el estado. Si encontramos estas causas a tiempo, es posible iniciar estudios adicionales, y campañas preventivas para mejorar la condición de las comunas en cuestión.
+
+En este informe se buscará a través de un análisis descriptivo con herramientas estadísticas, encontrar y conocer las comunas que requieran de este análisis, observando la tasa de defunciones que presenten.
+
+En primer lugar, el reporte contendrá información sobre el panorama general del territorio nacional, especificando la tasa de mortalidad y población de cada región, para luego mostrar detalladamente dos mapas y una tabla de las regiones que contienen a las comunas con mayor tasa de defunciones. Posteriormente se realizará un análisis más específico de las comunas que presenten una tasa muy alta y se exhibirán dos tablas que contienen información más específica de las enfermedades que más provocan fallecimientos en la zona de estudio.
 
 # Metodología
 
@@ -55,7 +61,7 @@ La primera base mencionada en el párrafo anterior, que contiene variables conti
 * Código de la región de residencia del fallecido.
 * Región de residencia.
 * Código del Servicio de Salud de residencia del fallecido.
-* Código de la comuna de residencia del fallecido, de acuerdo a la división político administrativa actualizada el 2019.
+* Código de la comuna de residencia del fallecido, de acuerdo a la división político-administrativa actualizada el 2019.
 * Código para definir la zona Urbano o Rural de la residencia de la persona fallecida.
 
 Por otro lado, algunas de las variables categóricas dentro de la base de datos son las siguientes.
@@ -77,11 +83,11 @@ A continuación, se hablará de la segunda base de datos mencionada, esta contie
 
 Es necesario hacer hincapié en que la base de datos mencionada anteriormente solo tiene información sobre el Censo del año 2017, por lo que el análisis se redujo a ese año específicamente. 
 
-Al combinar estas bases de datos, se utilizaron estadísticos como la tasa de mortalidad (o tasa de defunción), esta consiste en establecer una esperanza de muertes cada 100.000 habitantes de la zona en estudio. Se decidió que la tasa de mortalidad de una comuna es alta, cuando la tasa de mortalidad supera al tercer cuantil de la región a la que pertenece o cuando la tasa supera un valor de 800.
+Al combinar estas bases de datos, se utilizaron estadísticos como la tasa de mortalidad, esta consiste en establecer una esperanza de muertes cada 100.000 habitantes de la zona en estudio. Se decidió que la tasa de mortalidad de una comuna es alta, cuando la tasa de mortalidad supera al tercer cuantil de la región a la que pertenece o cuando la tasa supera un valor de 800.
 
-En el momento de hacer el análisis región a región se consideraron las regiones donde se vio una mayor tasa de mortalidad durante el estudio. Para cada región se exhibirá una visualización general, una visualización específica de las comunas de la región con mayor tasa de mortalidad, junto con una tabla con los mimos datos del punto anterior, adicionando información sobre la población. 
+En el momento de hacer el análisis región a región se consideraron las regiones donde se vio una mayor tasa de mortalidad durante el estudio. Para cada región se exhibirá una visualización general, una visualización específica de las comunas de la región con mayor tasa de mortalidad, junto con una tabla con los mismos datos del punto anterior, adicionando información sobre la población. 
 
-A continuación, para realizar el estudio comuna a comuna, se seleccionaron las que tengan una tasa de mortalidad mayor a 1000. Se consideró mostrar dos tablas para cada comuna, una que muestre información sobre las categorías de enfermedades que más provocaron defunciones, esto es, a que grupo de enfermedades pertenece cada enfermedad. Y posteriormente, una tabla que indique las enfermedades específicas que provocaron las mayores cantidades de defunciones en cada comuna. Ambas tablas contienen la cantidad de defunciones de cada categoría o enfermedad respectivamente en conjunto a la edad media.
+Luego, para realizar el estudio comuna a comuna, se seleccionaron las que tengan una tasa de mortalidad mayor a 1000. Se consideró mostrar dos tablas para cada comuna, una que muestre información sobre las categorías de enfermedades que más provocaron defunciones, esto es, a que grupo de enfermedades pertenece cada enfermedad. Y posteriormente, una tabla que indique las enfermedades específicas que provocaron las mayores cantidades de defunciones en cada comuna. Ambas tablas contienen la cantidad de defunciones de cada categoría o enfermedad respectivamente en conjunto a la edad media.
 
 # Información de defunciones a nivel nacional
 
@@ -103,7 +109,7 @@ Se consideraron cinco regiones donde se pueden apreciar las comunas con tasa de 
 
 ## Región del Maule 
 
-A continuación se enseñará un mapa con la tasa de mortalidad a nivel regional.
+A continuación, se enseñará un mapa con la tasa de mortalidad a nivel regional.
 
 ```{r echo = FALSE}
 regiones[[7]]$grafico_compl
@@ -119,7 +125,7 @@ regiones[[7]]$grafico_quant
 
 A partir del mapa anterior es posible evidenciar dos grupos, ubicados en la zona oeste del mapa, en particular destaca la comuna de Curepto.
 
-La siguiente tabla muestra las comunas que aparecen en el gráfico anterior con más detalle, incluyendoo defunciones, población y tasa de mortalidad.
+La siguiente tabla muestra las comunas que aparecen en el gráfico anterior con más detalle, incluyendo defunciones, población y tasa de mortalidad.
 
 ```{r}
 regiones[[7]]$comunas_region %>% datatable(class = "cell-border stripe")
@@ -174,7 +180,7 @@ La zona norte es la que presenta mayor tasa de mortalidad. En general, se puede 
 regiones[[10]]$grafico_quant
 ```
 
-Gracias a este mapa, podemos ver que las comuna de San Juan de la Costa, Puqueldon y Quinchao tienen una tasa de mortalidad muy elevada. En la siguiente tabla se puede apreciar con mayor detalle las comunas con tasa de defunción alta.
+Gracias a este mapa, podemos ver que las comunas de San Juan de la Costa, Puqueldon y Quinchao tienen una tasa de mortalidad muy elevada. En la siguiente tabla se puede apreciar con mayor detalle las comunas con tasa de defunción alta.
 
 ```{r}
 regiones[[10]]$comunas_region %>% datatable(class = "cell-border stripe")
@@ -188,19 +194,19 @@ Es posible apreciar en la Tabla 4 que las tasas de mortalidad son muy altas en e
 
 ## Región Metropolitana
 
-A continuación se mostrará el mapa de la Región Metropolitana (RM) para apreciar generalmente la tasa de defunción de cada comuna, en este caso se omitieron algunas comunas periféricas para que se visualize mejor la ciudad de Santiago.
+A continuación se mostrará el mapa de la Región Metropolitana (RM) para apreciar generalmente la tasa de defunción de cada comuna, en este caso se omitieron algunas comunas periféricas para que se visualice mejor la ciudad de Santiago.
 
 ```{r echo = FALSE}
 regiones[[13]]$grafico_compl
 ```
-Se puede apreciar que las comunas con mayor tasa de mortalidad pertenecen a la zona céntrica de la RM, sin embargo la comuna más central (Santiago Centro), presenta una tasa de mortalidad más baja en comparación a las comunas aledañas. La gráfica de a continuación, resalta solo las comunas con tasa de defunción alta.
+Se puede apreciar que las comunas con mayor tasa de mortalidad pertenecen a la zona céntrica de la RM, sin embargo la comuna más central (Santiago Centro), presenta una tasa de mortalidad más baja en comparación a las comunas aledañas. La gráfica de a continuación resalta solo las comunas con tasa de defunción alta.
 
 
 ```{r}
 regiones[[13]]$grafico_quant
 ```
 
-En este mapa se logra evidenciar que toda las comunas resaltadas, excepto Providencia, pertenecen a estratos sociales medios-bajos. El lector puede ver más detalles sobre estas comunas en la siguiente tabla.
+En este mapa se logra evidenciar que todas las comunas resaltadas, excepto Providencia, pertenecen a estratos sociales medios-bajos. El lector puede ver más detalles sobre estas comunas en la siguiente tabla.
 
 
 ```{r}
@@ -211,7 +217,7 @@ regiones[[13]]$comunas_region %>% datatable(class = "cell-border stripe")
 </center>
 
 
-La tabla anterior nos permite observar que si bien las tasas de mortalidad de la región son altas, no lo son tanto como en las regiones anteriormente señaladas.
+La tabla anterior nos permite observar que, si bien las tasas de mortalidad de la región son altas, no lo son tanto como en las regiones anteriormente señaladas.
 
 ## Región del Ñuble
 
@@ -221,13 +227,13 @@ La siguiente visualización permite hacer dar cuenta de las tasas de defunción 
 ```{r echo = FALSE}
 regiones[[16]]$grafico_compl
 ```
-Esta visualización nos informa que hay una tasa de mortalidad bastante variada a lo largo de la región de estudio, además aparentemente no es posible señalar una tendencia. Hay una comuna que destaca en particular, que esta en la zona costera de la región, y que tiene una tasa de mortalidad sobresaliente comparada al resto. A continuación, se exhibe un mapa donde se puede observar a las comunas con mayor tasa de mortalidad.
+Esta visualización nos informa que hay una tasa de mortalidad bastante variada a lo largo de la región de estudio, además aparentemente no es posible señalar una tendencia. Hay una comuna que destaca en particular que está en la zona costera de la región, y que tiene una tasa de mortalidad sobresaliente comparada al resto. A continuación, se exhibe un mapa donde se puede observar a las comunas con mayor tasa de mortalidad.
 
 
 ```{r}
 regiones[[16]]$grafico_quant
 ```
-Podemos ver como destaca Ranquil por sobre el resto en este mapa. Sin embargo vemos que zonas ubicadas en el sector occidente de la región tienen una tasa de mortalidad alta. En la siguiente tabla se muestran más detalles sobre estas comunas.
+Podemos ver como destaca Ranquil por sobre el resto en este mapa. Sin embargo, vemos que zonas ubicadas en el sector occidente de la región tienen una tasa de mortalidad alta. En la siguiente tabla se muestran más detalles sobre estas comunas.
 
 
 ```{r}
@@ -282,7 +288,7 @@ Tabla 9: Enfermedades que conllevaron a defunciones en la comuna
 </center>
 
 
-En la tabla anterior es posible inferir que la ingesta de alcohol es muy alta en la comuna, ya que la enfermedad alcohólica del hígado es la principal causa de muerte. Además, es la enfermada que tiene edad media de defunciones más baja, alcanza los 53 años, por lo que la gente que fallece por esta enfermedad es relativamente joven.n.
+En la tabla anterior es posible inferir que la ingesta de alcohol es muy alta en la comuna, ya que la enfermedad alcohólica del hígado es la principal causa de muerte. Además, es la enfermada que tiene edad media de defunciones más baja, alcanza los 53 años, por lo que la gente que fallece por esta enfermedad es relativamente joven. 
 
 ## Ranquil
 
@@ -325,7 +331,7 @@ Tabla 12: Tipos de enfermedades que conllevaron a defunciones en la comuna
 </p>
 </center>
 
-Gracias a la tabla anterior es posible concluir que las defunciones asociadas a enfermedades del sistema circulatorio a predominan ampliamente, seguidas luego por las enfermedades del sistema respiratorio. Las defunciones por causas externas cobraron la vida de personas que en promedio tenían 49 años, una edad muy temprana. Podemos ver con aún mas detalle las enfermedades específicas que causaron defunciones en la comuna en la siguiente tabla.
+Gracias a la tabla anterior es posible concluir que las defunciones asociadas a enfermedades del sistema circulatorio a predominan ampliamente, seguidas luego por las enfermedades del sistema respiratorio. Las defunciones por causas externas cobraron la vida de personas que en promedio tenían 49 años, una edad muy temprana. Podemos ver con aún más detalle las enfermedades específicas que causaron defunciones en la comuna en la siguiente tabla.
 
 
 ```{r}
@@ -342,7 +348,7 @@ Sin considerar las defunciones no especificadas, en la Tabla 13 podemos ver que 
 
 ## Curepto
 
-Continuando el estudio, se enseñaran las categorías de enfermedades que más causaron defunciones en Curepto, junto a la cantidad de estas y la edad media respectiva. Para ello veamos la siguiente tabla. 
+Continuando el estudio, se enseñarán las categorías de enfermedades que más causaron defunciones en Curepto, junto a la cantidad de estas y la edad media respectiva. Para ello veamos la siguiente tabla. 
 
 ```{r}
 curepto %>% datatable(class = "cell-border stripe", rownames = FALSE)
@@ -354,7 +360,7 @@ Tabla 14: Tipos de enfermedades que conllevaron a defunciones en la comuna
 </center>
 
 
-A partir de la tabla anterior, es posible concluir que enfermedades del sistema circulatorio son las mayores causantes de defunciones en la comuna de Curepto. También existe una cantidad parecida de defunciones por Tumores, que cobraron la vida de personas que en promedio tenían 70 años de edad. La tabla posterior indica con mayor especificidad las enfermedades que más llevaron a defunciones en la comuna.
+A partir de la tabla anterior, es posible concluir que enfermedades del sistema circulatorio son las mayores causantes de defunciones en la comuna de Curepto. También existe una cantidad parecida de defunciones por Tumores, que cobraron la vida de personas que en promedio tenían 70 años. La tabla posterior indica con mayor especificidad las enfermedades que más llevaron a defunciones en la comuna.
 
 
 ```{r}
@@ -421,20 +427,20 @@ Tabla 19: Enfermedades que conllevaron a defunciones en la comuna
 </p>
 </center>
 
-Dada la información en la tabla anterior, se puede observar que las defunciones son bajas, aún así sobresalen los fallecimientos por diabetes mellitus. Además destacan dos enfermedades relacionadas con el sistema circulatorio, como lo son la enfermedad cardiaca hipertensiva y el infarto agudo al miocardio.
+Dada la información en la tabla anterior, se puede observar que las defunciones son bajas, aun así sobresalen los fallecimientos por diabetes mellitus. Además, destacan dos enfermedades relacionadas con el sistema circulatorio, como lo son la enfermedad cardiaca hipertensiva y el infarto agudo al miocardio.
 
 
 # Conclusiones
 
-Una vez exhibidos los resultados obtenidos durante la investigación, podemos obtener la conclusión de que dentro del territorio nacional, las regiones más australes son las que tienen mayores tasas de mortalidad, por lo que en mi opinión, deberían enfocarse recursos a la Zona Sur de Chile. 
+Una vez exhibidos los resultados obtenidos durante la investigación, podemos obtener la conclusión de que, dentro del territorio nacional, las regiones más australes son las que tienen mayores tasas de mortalidad, por lo que en mi opinión, deberían enfocarse recursos a la Zona Sur de Chile. 
 
-La existencia de patrones, como por ejemplo, que hayan más defunciones en la zona costera que en la cordillerana, es muy importante de investigar con el fin de enfocar los recursos a estas zonas. Es necesario señalar que la existencia de patrones dentro de cada región, también es necesario estudiarla con más detalle.
+La existencia de patrones,  por ejemplo, que hayan más defunciones en la zona costera que en la cordillerana, es muy importante de investigar con el fin de enfocar los recursos a estas zonas. Es necesario señalar que la existencia de patrones dentro de cada región, también es necesario estudiarla con más detalle.
 
-A través de una vista panorámica de las causantes de defunciones, podemos ver desde la Tabla 8 en adelante, que las enfermedades predominantes son las relacionadas con el sistema circulatorio. Es importante incrementar las campañas de prevención para prevenir estas enfermedades que afectan a la población que pertenece al grupo etario de entre los 50 y 70 años de edad ("Infarto al miocardio". Hospitales Angeles, s. f.).
+A través de una vista panorámica de las causantes de defunciones, podemos ver desde la Tabla 8 en adelante, que las enfermedades predominantes son las relacionadas con el sistema circulatorio. Es importante incrementar las campañas de prevención para prevenir estas enfermedades que afectan a la población que pertenece al grupo etario de entre los 50 y 70 años ("Infarto al miocardio". Hospitales Angeles, s. f.).
 
-Hablando específicamente de las enfermedades, una de las que más sobresalió fue la enfermedad hepática al hígado. En general, Chile es un país que presenta altos índices de consumo de alcohol, que han ido presentando incrementos en los últimos años. ("Aumento del consumo de alcohol, el otro efecto de la pandemia". Universidad San Sebastian, (s. f.)). La otra enfermedad que destacó también fue la diabetes mellitus, que si bien el factor genético es inalterable, hay estudios que señalan que malos hábitos alimentarios incrementan el riesgo de desarrollar diabetes, en especial en estudiantes universitarios. (Fernandez M. & López M., 2019). En mi opinión, iniciar campañas preventivas que generen difusión y concientización es muy importante con el fin de disminuir la cantidad de fallecimientos que presentan ambas enfermedades.
+Hablando específicamente de las enfermedades, una de las que más sobresalió fue la enfermedad hepática al hígado. En general, Chile es un país que presenta altos índices de consumo de alcohol, que han ido presentando incrementos en los últimos años. ("Aumento del consumo de alcohol, el otro efecto de la pandemia". Universidad San Sebastian, (s. f.)). La otra enfermedad que destacó también fue la diabetes mellitus, si bien el factor genético es inalterable, hay estudios que señalan que malos hábitos alimentarios incrementan el riesgo de desarrollar diabetes, en especial en estudiantes universitarios. (Fernandez M. & López M., 2019). En mi opinión, iniciar campañas preventivas que generen difusión y concientización es muy importante con el fin de disminuir la cantidad de fallecimientos que presentan ambas enfermedades.
 
-Finalmente, encuentro que existe la necesidad de realizar un análisis con más profundidad, que otorgue más información sobre las características sociales de las personas que habitan en comunas con tasa de mortalidad alta, porque Chile es un país desarrollado, y por esto, contará con grandes números de defunciones sobre las enfemedades señaladas durante el informe.
+Finalmente, encuentro que existe la necesidad de realizar un análisis con más profundidad, que otorgue más información sobre las características sociales de las personas que habitan en comunas con tasa de mortalidad alta, porque Chile es un país desarrollado, y por esto, contará con grandes números de defunciones sobre las enfermedades señaladas durante el informe.
 
 # Referencias bibliográficas
 
