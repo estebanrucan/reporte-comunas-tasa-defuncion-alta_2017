@@ -39,6 +39,8 @@ En Chile, gracias a los datos otorgados por el DEIS y el censo, es posible reali
 
 # Introducción
 
+Las
+
 # Metodología
 
 Para realizar este estudio se utilizó el software R a través de RStudio, donde se realizó un estudio descriptivo gracias a cruzar dos bases de datos. Una contiene información sobre defunciones otorgada por el Departamento de Estadísticas e información de Salud. La segunda base de datos, que contiene información sobre el Censo del año 2017, es otorgada por el package `chilemapas` de R.
@@ -77,7 +79,9 @@ Es necesario hacer hincapié en que la base de datos mencionada anteriormente so
 
 Al combinar estas bases de datos, se utilizaron estadísticos como la tasa de mortalidad (o tasa de defunción), esta consiste en establecer una esperanza de muertes cada 100.000 habitantes de la zona en estudio. Se decidió que la tasa de mortalidad de una comuna es alta, cuando la tasa de mortalidad supera al tercer cuantil de la región a la que pertenece o cuando la tasa supera un valor de 800.
 
-A continuación, para realizar el estudio comuna a comuna, se consideró mostrar dos tablas, una que muestre información sobre las categorías de enfermedades que más provocaron defunciones, esto es, a que grupo de enfermedades pertence cada enfermedad. Y posteriormente, una tabla que indique las enfermedades específicas que provocaron las mayores cantidades de defunciones en cada comuna. Ambas tablas contienen la cantidad de defunciones de cada categoría o enfermedad respectivamente en conjunto a la edad media.
+En el momento de hacer el análisis región a región se consideraron las regiones donde se vio una mayor tasa de mortalidad durante el estudio. Para cada región se exhibirá una visualización general, una visualización específica de las comunas de la región con mayor tasa de mortalidad, junto con una tabla con los mimos datos del punto anterior, adicionando información sobre la población. 
+
+A continuación, para realizar el estudio comuna a comuna, se seleccionaron las que tengan una tasa de mortalidad mayor a 1000. Se consideró mostrar dos tablas para cada comuna, una que muestre información sobre las categorías de enfermedades que más provocaron defunciones, esto es, a que grupo de enfermedades pertenece cada enfermedad. Y posteriormente, una tabla que indique las enfermedades específicas que provocaron las mayores cantidades de defunciones en cada comuna. Ambas tablas contienen la cantidad de defunciones de cada categoría o enfermedad respectivamente en conjunto a la edad media.
 
 # Información de defunciones a nivel nacional
 
@@ -95,12 +99,11 @@ Tal como se logra apreciar en la Tabla 1, la región de Los Ríos es la que pres
 
 # Información de defunciones según región
 
-A continuación, se mostrarán las regiones donde se vió una mayor tasa de mortalidad durante el estudio. Para cada región se exhibirá una visualización general, una visualización específica de las comunas de la región con mayor tasa de mortalidad, junto con una tabla con los mimos datos del punto anterior. 
-
+Se consideraron cinco regiones donde se pueden apreciar las comunas con tasa de defunción más alta, para comenzar se presentará a la región del Maule.
 
 ## Región del Maule 
 
-Ahora se enseñará un mapa con la tasa de mortalidad a nivel regional.
+A continuación se enseñará un mapa con la tasa de mortalidad a nivel regional.
 
 ```{r echo = FALSE}
 regiones[[7]]$grafico_compl
