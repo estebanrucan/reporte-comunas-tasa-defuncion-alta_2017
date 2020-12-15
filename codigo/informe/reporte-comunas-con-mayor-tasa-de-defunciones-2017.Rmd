@@ -434,7 +434,7 @@ Dada la información en la tabla anterior, se puede observar que las defunciones
 
 # Conclusiones
 
-Una vez exhibidos los resultados obtenidos durante la investigación, podemos obtener la conclusión de que, dentro del territorio nacional, las regiones más australes son las que tienen mayores tasas de mortalidad, por lo que en mi opinión, deberían enfocarse recursos a la Zona Sur de Chile. 
+Una vez exhibidos los resultados obtenidos durante la investigación, podemos obtener la conclusión de que, dentro del territorio nacional, las regiones más australes son las que tienen mayores tasas de mortalidad, destacando la región de la Araucanía porque contiene muchas comunas con esta tasa muy alta, por lo que en mi opinión, deberían enfocarse recursos a estos lugares de Chile.
 
 La existencia de patrones,  por ejemplo, que hayan más defunciones en la zona costera que en la cordillerana, es muy importante de investigar con el fin de enfocar los recursos a estas zonas. Es necesario señalar que la existencia de patrones dentro de cada región, también es necesario estudiarla con más detalle.
 
