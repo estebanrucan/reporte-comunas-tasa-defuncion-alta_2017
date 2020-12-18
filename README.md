@@ -11,8 +11,12 @@
 
 ## Resultados
 
-* El resumen de estos están disponibles en el archivo [`resultados.Rmd`](https://github.com/estebanrucan/reporte-comunas-tasa-defuncion-alta_2017/blob/master/productos/resultados/resultados.html), ubicado en la carpeta "productos".
+* El resumen de estos están disponibles en el archivo [`resultados.html`](https://github.com/estebanrucan/reporte-comunas-tasa-defuncion-alta_2017/blob/master/productos/resultados/resultados.html), ubicado en la carpeta "productos".
 
 ## Informe final
 
-* El reporte final se encuentra en el archivo [`reporte-comunas-con-mayor-tasa-de-defunciones-2017.html`](https://github.com/estebanrucan/reporte-comunas-tasa-defuncion-alta_2017/blob/master/productos/informe/reporte-comunas-con-mayor-tasa-de-defunciones-2017.html), encontrado en la carpeta "productos". ([Versión distribuible](http://quizzical-edison-a8b2cb.netlify.app/))
+* El reporte final se encuentra en el archivo [`reporte-comunas-con-mayor-tasa-de-defunciones-2017.html`](https://github.com/estebanrucan/reporte-comunas-tasa-defuncion-alta_2017/blob/master/productos/informe/reporte-comunas-con-mayor-tasa-de-defunciones-2017.html), encontrado en la carpeta "productos".
+
+## Presentación
+
+* Es posible encontrar la presentación en el archivo [`presentacion-defunciones.pdf`](https://github.com/estebanrucan/reporte-comunas-tasa-defuncion-alta_2017/blob/master/productos/presentacion/presentacion-defunciones.pdf), en la carpeta "productos".
