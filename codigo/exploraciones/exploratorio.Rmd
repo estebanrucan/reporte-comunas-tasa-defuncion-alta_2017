@@ -132,9 +132,9 @@ defunciones_region <- function(num_reg) {
     geom_sf(aes(fill = TASA_DEF, geometry = geometry)) +
     gghighlight(TASA_DEF > quantile(comunas$TASA_DEF, 0.75)) +
     geom_sf_label_repel(aes(label = nombre_comuna, geometry = geometry), force = 80, 
-                  size = 2.5, seed = 10, nudge_x = -1.5) +
+                  size = 4.5, seed = 10, nudge_x = -1.5) +
     scale_fill_gradientn(colours = rev(paleta)[3:5], name = "Tasa de\nMortalidad") +
-    labs(title = paste("Tasa de Defunción de las comunas de\nla Región de", regiones[num_reg, 2])) +
+    labs(title = paste("Tasa de Defunción de las comunas con tasa de \n defunción alta en la Región de", regiones[num_reg, 2])) +
     theme_minimal(base_size = 13) + 
     theme(plot.title = element_text(hjust = 0.5)) +
     theme(axis.text.x = element_blank(), axis.text.y = element_blank()) +
@@ -166,7 +166,7 @@ for (i in 1:16) {
   regiones[[i]] <- defunciones_region(i)
 }
 
-regiones[[13]]$grafico_quant
+regiones[[9]]$grafico_quant
 ```
 
 
